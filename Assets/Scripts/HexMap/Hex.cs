@@ -42,6 +42,16 @@ public class Hex : MonoBehaviour
         {
             Debug.LogError("No hex material assigned to Hex script!");
         }
+        
+        if (waterBar == null)
+        {
+            Debug.LogError("No water bar assigned to Hex script!");
+        }
+        
+        if (nutritionBar == null)
+        {
+            Debug.LogError("No nutrition bar assigned to Hex script!");
+        }
     }
 
     // Update is called once per frame

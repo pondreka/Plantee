@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
      [SerializeField] private GameObject hexMapPrefab;
      private GameObject mapManager;
 
+     [SerializeField] private GameObject robotPrefab;
+     private GameObject robot;
+
      private void Awake()
      {
           if (_instance != null && _instance != this)
@@ -30,6 +33,12 @@ public class GameManager : MonoBehaviour
                Debug.LogError("No hex map prefab assigned to GameManager script!");
           }
           
+          if (robotPrefab == null)
+          {
+               Debug.LogError("No robot prefab assigned to GameManager script!");
+          }
+          
           mapManager = Instantiate(hexMapPrefab, this.transform, true);
+          robot = Instantiate(robotPrefab, this.transform, true);
      }
 }

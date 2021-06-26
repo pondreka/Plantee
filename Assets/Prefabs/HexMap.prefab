@@ -46,5 +46,3 @@ MonoBehaviour:
   hexTilePrefab: {fileID: 4791084567401343477, guid: 8fd027424da4d5946995e64c1d5bb2ea, type: 3}
   edgeUp: 0
   tileRadius: 1
-  width: 10
-  height: 10
