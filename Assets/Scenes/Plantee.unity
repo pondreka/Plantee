@@ -106,7 +106,7 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.5
+    agentRadius: 0.25
     agentHeight: 2
     agentSlope: 45
     agentClimb: 0.4
@@ -114,7 +114,7 @@ NavMeshSettings:
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.16666667
+    cellSize: 0.083333336
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hexMapPrefab: {fileID: 2948628750416242637, guid: 19b329d65beff0c4d89761f50d0b953a, type: 3}
   robotPrefab: {fileID: 2998098651187423100, guid: 07ec6cc855d4a4047b6b905b2b766282, type: 3}
+  mamaBarPrefab: {fileID: 1643693087164544037, guid: 66d6b13d71908ce439ba954d7cc9954b, type: 3}
 --- !u!4 &106254832
 Transform:
   m_ObjectHideFlags: 0
@@ -439,6 +440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7f5f59bafd8bbd4ebc0d643a6936e41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  robot: {fileID: 0}
 --- !u!4 &1780840972
 Transform:
   m_ObjectHideFlags: 0

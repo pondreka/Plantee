@@ -16,6 +16,9 @@ public class Hex : MonoBehaviour
     private int rowPos = -1;
     private float maxAttributevalue = 10f;
 
+    private bool isClickable = false;
+    private Outline outline;
+
     //Trash
     [SerializeField] private GameObject trashPrefab;
     private List<GameObject> trashList = new List<GameObject>();
@@ -52,6 +55,9 @@ public class Hex : MonoBehaviour
         {
             Debug.LogError("No nutrition bar assigned to Hex script!");
         }
+        
+        isClickable = false;
+        outline = this.gameObject.GetComponent<Outline>();
     }
 
     // Update is called once per frame
@@ -215,7 +221,7 @@ public class Hex : MonoBehaviour
     //Getter row position
     public int GetRow()
     {
-        return columnPos;
+        return rowPos;
     }
     
     //Setter row position
@@ -277,6 +283,7 @@ public class Hex : MonoBehaviour
             {
                 trashList[t + trashCount].SetActive(true);
             }
+            
         }
         else if (trashCount > trashNumber)
         {
@@ -286,6 +293,8 @@ public class Hex : MonoBehaviour
                 trashList[trashCount - t].SetActive(false);
             }
         }
+
+        trashCount = trashNumber;
     }
     
     //Updates the color of the hex according to the toxicity
@@ -342,5 +351,36 @@ public class Hex : MonoBehaviour
         nutritionBar.fillAmount = nutrition / maxAttributevalue;
     }
 
+    //In movement range or not
+    public bool IsClickable()
+    {
+        return isClickable;
+    }
+
+    //Not clickable for movement
+    public void NotClickable()
+    {
+        isClickable = false;
+    }
+
+    //Clickable for movement
+    public void Clickable()
+    {
+        isClickable = true;
+    }
+
+
+    //Outline On
+    public void OutlineOn()
+    {
+        outline.enabled = true;
+    }
+
+    //Outline off
+    public void OutlineOff()
+    {
+        outline.enabled = false;
+    }
+    
 
 }

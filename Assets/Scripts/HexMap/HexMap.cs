@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEditor.Experimental;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class HexMap : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class HexMap : MonoBehaviour
     private float height;
 
     private List<List<GameObject>> map = new List<List<GameObject>>();
+
+    public NavMeshSurface surface;
     
 
     // Start is called before the first frame update
@@ -27,12 +30,17 @@ public class HexMap : MonoBehaviour
         {
             Debug.LogError("No hex prefab assigned to HexMap script!");
         }
+        if (surface == null)
+        {
+            Debug.LogError("No surface assigned to HexMap script!");
+        }
         
         Level level = new Level();
         Vector2 mapSize = level.GetMapSize();
         height = mapSize.x;
         width = mapSize.y;
         InitializeMap();
+        surface.BuildNavMesh();
     }
 
     // Update is called once per frame
@@ -77,11 +85,18 @@ public class HexMap : MonoBehaviour
         }
     }
 
+    //Getter for the HexTile list
+    public List<List<GameObject>> GetAllHex()
+    {
+        return map;
+    }
+    
     //Generates a list with all HexTile neighbors
     public List<GameObject> HexNeighbors(GameObject hex)
     {
         int column = hex.gameObject.GetComponent<Hex>().GetColumn();
         int row = hex.gameObject.GetComponent<Hex>().GetRow();
+        
         List<GameObject> neighbors = new List<GameObject>();
 
         if (row - 1 >= 0)
