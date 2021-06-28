@@ -64,8 +64,8 @@ public class HexMap : MonoBehaviour
                     GameObject hexTile = Instantiate(hexTilePrefab, tile.GetPosition(), Quaternion.Euler(-90,90,0), this.transform);
                     hexTile.name = "HexTile_" + column + "_" + row;
                     
-                    hexTile.gameObject.GetComponent<Hex>().SetAllAttributes(Random.Range(0,11),Random.Range(0,11), Random.Range(0,11), Random.Range(0,11));
-                    hexTile.gameObject.GetComponent<Hex>().SetPosition(column, row);
+                    hexTile.gameObject.GetComponent<HexAttributes>().SetAllAttributes(Random.Range(0,11),Random.Range(0,11), Random.Range(0,11), Random.Range(0,11));
+                    hexTile.gameObject.GetComponent<HexInteractions>().SetPosition(column, row);
                     
                     cmap.Add(hexTile);
 
@@ -75,8 +75,8 @@ public class HexMap : MonoBehaviour
                     GameObject hexTile = Instantiate(hexTilePrefab, tile.GetPosition(), Quaternion.Euler(-90,0,0), this.transform);
                     hexTile.name = "HexTile_" + column + "_" + row;
                     
-                    hexTile.gameObject.GetComponent<Hex>().SetAllAttributes(Random.Range(0,11),Random.Range(0,11), Random.Range(0,11), Random.Range(0,11));
-                    hexTile.gameObject.GetComponent<Hex>().SetPosition(column, row);
+                    hexTile.gameObject.GetComponent<HexAttributes>().SetAllAttributes(Random.Range(0,11),Random.Range(0,11), Random.Range(0,11), Random.Range(0,11));
+                    hexTile.gameObject.GetComponent<HexInteractions>().SetPosition(column, row);
                     
                     cmap.Add(hexTile);
                 }
@@ -94,8 +94,8 @@ public class HexMap : MonoBehaviour
     //Generates a list with all HexTile neighbors
     public List<GameObject> HexNeighbors(GameObject hex)
     {
-        int column = hex.gameObject.GetComponent<Hex>().GetColumn();
-        int row = hex.gameObject.GetComponent<Hex>().GetRow();
+        int column = hex.gameObject.GetComponent<HexInteractions>().GetColumn();
+        int row = hex.gameObject.GetComponent<HexInteractions>().GetRow();
         
         List<GameObject> neighbors = new List<GameObject>();
 
@@ -131,4 +131,5 @@ public class HexMap : MonoBehaviour
         
         return neighbors;
     }
+    
 }

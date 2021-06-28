@@ -5,19 +5,14 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Hex : MonoBehaviour
+public class HexAttributes : MonoBehaviour
 {
     //Hex attributes and position
     private int water = -1;
     private int nutrition = -1;
     private int toxicity = -1;
     private int trash = -1;
-    private int columnPos = -1;
-    private int rowPos = -1;
     private float maxAttributevalue = 10f;
-
-    private bool isClickable = false;
-    private Outline outline;
 
     //Trash
     [SerializeField] private GameObject trashPrefab;
@@ -56,8 +51,7 @@ public class Hex : MonoBehaviour
             Debug.LogError("No nutrition bar assigned to Hex script!");
         }
         
-        isClickable = false;
-        outline = this.gameObject.GetComponent<Outline>();
+        
     }
 
     // Update is called once per frame
@@ -202,43 +196,6 @@ public class Hex : MonoBehaviour
         SetToxicity(to);
         SetTrash(tr);
     }
-    
-    //Getter column position
-    public int GetColumn()
-    {
-        return columnPos;
-    }
-    
-    //Setter column position
-    private void SetColumn(int column)
-    {
-        if (columnPos == -1)
-        {
-            columnPos = column;
-        }
-    }
-    
-    //Getter row position
-    public int GetRow()
-    {
-        return rowPos;
-    }
-    
-    //Setter row position
-    private void SetRow(int row)
-    {
-        if (rowPos == -1)
-        {
-            rowPos = row;
-        }
-    }
-    
-    //Setter for Hex position
-    public void SetPosition(int column, int row)
-    {
-        SetColumn(column);
-        SetRow(row);
-    }
 
     //Create trash GameObjects and adjust visibility
     private void TrashObjectGenerator()
@@ -301,41 +258,12 @@ public class Hex : MonoBehaviour
     private void UpdateToxixity()
     {
 
-        switch (toxicity)
+        for (int i = 0; i < 11; i++)
         {
-            case 0:
-                gameObject.GetComponent<Renderer>().material.color = new Color(0.74f, 0.49f, 0);
-                break;
-            case 1:
-                gameObject.GetComponent<Renderer>().material.color = new Color(0.7f, 0.49f, 0);
-                break;
-            case 2:
-                gameObject.GetComponent<Renderer>().material.color = new Color(0.66f, 0.49f, 0);
-                break;
-            case 3:
-                gameObject.GetComponent<Renderer>().material.color = new Color(0.625f, 0.49f, 0);
-                break;
-            case 4:
-                gameObject.GetComponent<Renderer>().material.color = new Color(0.58f, 0.49f, 0);
-                break;
-            case 5:
-                gameObject.GetComponent<Renderer>().material.color = new Color(0.54f, 0.40f, 0);
-                break;
-            case 6:
-                gameObject.GetComponent<Renderer>().material.color = new Color(0.51f, 0.49f, 0);
-                break;
-            case 7:
-                gameObject.GetComponent<Renderer>().material.color = new Color(0.47f, 0.49f, 0);
-                break;
-            case 8:
-                gameObject.GetComponent<Renderer>().material.color = new Color(0.42f, 0.49f, 0);
-                break;
-            case 9:
-                gameObject.GetComponent<Renderer>().material.color = new Color(0.39f, 0.49f, 0);
-                break;
-            case 10:
-                gameObject.GetComponent<Renderer>().material.color = new Color(0.35f, 0.49f, 0);
-                break;
+            if (i == toxicity)
+            {
+                gameObject.GetComponent<Renderer>().material.color = new Color(0.4f, 0.1f + i * 0.06f, 0f);
+            }
         }
     }
 
@@ -350,37 +278,5 @@ public class Hex : MonoBehaviour
     {
         nutritionBar.fillAmount = nutrition / maxAttributevalue;
     }
-
-    //In movement range or not
-    public bool IsClickable()
-    {
-        return isClickable;
-    }
-
-    //Not clickable for movement
-    public void NotClickable()
-    {
-        isClickable = false;
-    }
-
-    //Clickable for movement
-    public void Clickable()
-    {
-        isClickable = true;
-    }
-
-
-    //Outline On
-    public void OutlineOn()
-    {
-        outline.enabled = true;
-    }
-
-    //Outline off
-    public void OutlineOff()
-    {
-        outline.enabled = false;
-    }
-    
 
 }

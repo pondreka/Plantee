@@ -47,7 +47,7 @@ public class MouseManager : MonoBehaviour
                 if (hitInfo.collider.CompareTag("Hex"))
                 {
                     //Moves only if the robot is selected, the clicked hex is a neighbor and there are actions left
-                    if (robotSelected && hitInfo.collider.GetComponent<Hex>().IsClickable() && GameManager.Instance.GetAction() > 0)
+                    if (robotSelected && hitInfo.collider.GetComponent<HexInteractions>().IsClickable() && GameManager.Instance.GetAction() > 0)
                     {
                         robot.MoveToLocation(hitInfo.transform.position);
                         GameManager.Instance.SetAction(-1);

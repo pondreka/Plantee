@@ -44,14 +44,14 @@ public class Movement : MonoBehaviour
 
             for (int i = 0; i < oldNeighborList.Count; i++)
             {
-                oldNeighborList[i].gameObject.GetComponent<Hex>().OutlineOff();
-                oldNeighborList[i].gameObject.GetComponent<Hex>().NotClickable();
+                oldNeighborList[i].gameObject.GetComponent<HexInteractions>().OutlineOff();
+                oldNeighborList[i].gameObject.GetComponent<HexInteractions>().NotClickable();
             }
 
             for (int i = 0; i < neighborList.Count; i++)
             {
-                neighborList[i].gameObject.GetComponent<Hex>().OutlineOn();
-                neighborList[i].gameObject.GetComponent<Hex>().Clickable();
+                neighborList[i].gameObject.GetComponent<HexInteractions>().OutlineOn();
+                neighborList[i].gameObject.GetComponent<HexInteractions>().Clickable();
             }
 
             oldNeighborList = neighborList;

@@ -89,11 +89,11 @@ public class GameManager : MonoBehaviour
           {
                for (int r = 0; r < map[c].Count; r++)
                {
-                    Hex hexScript = map[c][r].gameObject.GetComponent<Hex>();
-                    if (hexScript.IsClickable())
+                    HexInteractions hexAttributesScript = map[c][r].gameObject.GetComponent<HexInteractions>();
+                    if (hexAttributesScript.IsClickable())
                     {
-                         hexScript.NotClickable();
-                         hexScript.OutlineOff();
+                         hexAttributesScript.NotClickable();
+                         hexAttributesScript.OutlineOff();
                     }
                     
                }
