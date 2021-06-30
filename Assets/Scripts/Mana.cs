@@ -21,6 +21,12 @@ public class Mana : MonoBehaviour
     {
         return curActions;
     }
+    
+    //Getter for maximal actions
+    public int GetMaxActions()
+    {
+        return maxActions;
+    }
 
     //Sets the new value for current actions
     //actions might be positive or negative

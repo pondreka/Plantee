@@ -9,7 +9,7 @@ public class HexInteractions : MonoBehaviour
     
     private int columnPos = -1;
     private int rowPos = -1;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,7 +60,8 @@ public class HexInteractions : MonoBehaviour
         SetRow(row);
     }
     
-    //In movement range or not
+    //A hex is only clickable if an object was selected before
+    //that requires an interaction with the hex and the hex is in range
     public bool IsClickable()
     {
         return isClickable;
@@ -78,7 +79,8 @@ public class HexInteractions : MonoBehaviour
         isClickable = true;
     }
 
-
+    
+    
     //Outline On
     public void OutlineOn()
     {
@@ -91,10 +93,12 @@ public class HexInteractions : MonoBehaviour
         outline.enabled = false;
     }
     
+    //Returns a boolean, if a hex is in range or not
     public bool InRange(GameObject hexToProve, int range)
     {
-        int column = hexToProve.gameObject.GetComponent<HexInteractions>().GetColumn();
-        int row = hexToProve.gameObject.GetComponent<HexInteractions>().GetRow();
+        Vector2 position = LevelManager.Instance.GetHexPosition(hexToProve);
+        int column = (int) position[0];
+        int row = (int) position[1];
 
         int sumThisHex = columnPos + rowPos;
         int sumOtherHex = column + row;
@@ -108,4 +112,59 @@ public class HexInteractions : MonoBehaviour
 
         return false;
     }
+    
+    //Returns a boolean list, if a given position is in range or not
+    //Marks all hex in range
+    public List<List<bool>> HexInRange(int range)
+    {
+        List<List<bool>> inRange = new List<List<bool>>();
+
+        List<List<GameObject>> map = LevelManager.Instance.GetHexMap();
+
+        for (int c = 0; c < map.Count; c++)
+        {
+            List<bool> temp = new List<bool>();
+            for (int r = 0; r < map[c].Count; r++)
+            {
+                if (range <= 0)
+                {
+                    map[c][r].gameObject.GetComponent<HexInteractions>().NotClickable();
+                    temp.Add(false);
+                }
+                else
+                {
+                    if (InRange(map[c][r], range))
+                    {
+                        map[c][r].gameObject.GetComponent<HexInteractions>().Clickable();
+                    }
+                    else
+                    {
+                        map[c][r].gameObject.GetComponent<HexInteractions>().NotClickable();
+                    }
+
+                    temp.Add(InRange(map[c][r], range));
+
+                }
+            }
+            inRange.Add(temp);
+        }
+
+        //If the current hex can be selected or not depends on movement or interaction with the hex
+        //No selection for Movement
+        //Selection for Interaction
+        if (range == 0 && !LevelManager.Instance.RobotSelected())
+        {
+            Clickable();
+            inRange[columnPos][rowPos] = true;
+        }
+        else if (range > 0 && LevelManager.Instance.RobotSelected())
+        {
+            NotClickable();
+            inRange[columnPos][rowPos] = false;
+        }
+
+        return inRange;
+    }
+    
+    
 }

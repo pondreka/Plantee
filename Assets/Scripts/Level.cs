@@ -6,13 +6,12 @@ public class Level
 {
     private int mapHeight;
     private int mapWidth;
-    private int levelCount = 3;
-    
+
     private void LevelGenerator()
     {
-        mapHeight = Random.Range(1 * levelCount, 2 * levelCount);
-        mapWidth = Random.Range(1 * levelCount, 2 * levelCount);
-        levelCount++;
+        int levelCount = GameManager.Instance.GetLevel();
+        mapHeight = Random.Range(Mathf.Min(1 * levelCount, 5), Mathf.Min(2 * levelCount, 10));
+        mapWidth = Random.Range(Mathf.Min(1 * levelCount, 5), Mathf.Min(2 * levelCount, 10));
     }
 
     public Vector2 GetMapSize()

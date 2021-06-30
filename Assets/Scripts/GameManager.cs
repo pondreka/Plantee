@@ -8,19 +8,14 @@ public class GameManager : MonoBehaviour
      private static GameManager _instance;
      public static GameManager Instance => _instance;
 
-     [SerializeField] private GameObject hexMapPrefab;
-     private GameObject mapManager;
-     private HexMap mapScript;
 
-     [SerializeField] private GameObject robotPrefab;
-     private GameObject robot;
-     private Movement robotScript;
+     [SerializeField] private GameObject levelManagerPrefab;
+     private GameObject levelManager;
 
-     [SerializeField] private GameObject mamaBarPrefab;
-     private GameObject manaBar;
-     private Mana manaScript;
+     private bool inLevel = false;
+
+     private int level = 2;
      
-
      private void Awake()
      {
           if (_instance != null && _instance != this)
@@ -35,74 +30,38 @@ public class GameManager : MonoBehaviour
 
      private void Start()
      {
-          if (hexMapPrefab == null)
+          if (levelManagerPrefab == null)
           {
-               Debug.LogError("No hex map prefab assigned to GameManager script!");
+               Debug.LogError("No level manager prefab assigned to GameManager script!");
           }
-          
-          if (robotPrefab == null)
-          {
-               Debug.LogError("No robot prefab assigned to GameManager script!");
-          }
-          
-          if (robotPrefab == null)
-          {
-               Debug.LogError("No mana bar prefab assigned to GameManager script!");
-          }
-          
-          mapManager = Instantiate(hexMapPrefab, this.transform, true);
-          robot = Instantiate(robotPrefab, this.transform, true);
-          manaBar = Instantiate(mamaBarPrefab, this.transform, true);
-          manaScript = manaBar.gameObject.GetComponent<Mana>();
-          robotScript = robot.gameObject.GetComponent<Movement>();
-          mapScript = mapManager.gameObject.GetComponent<HexMap>();
+
+          Instantiate(levelManagerPrefab, this.transform, true);
+          inLevel = true;
      }
 
-     // Update is called once per frame
      private void Update()
      {
-          if (GetAction() == 0)
+          nextLevel();
+          if (!inLevel)
           {
-               RoundEnd();
-          }
-          
-     }
-
-     //Global setter for the number of actions
-     public void SetAction(int actions)
-     {
-          manaScript.SetActions(actions);
-     }
-
-     //Global getter for the number of actions
-     public int GetAction()
-     {
-          return manaScript.GetActions();
-     }
-     
-     //Deselects all Hex if no actions are left
-     public void DeselectAllHex()
-     {
-          List<List<GameObject>> map = mapScript.GetAllHex();
-
-          for (int c = 0; c < map.Count; c++)
-          {
-               for (int r = 0; r < map[c].Count; r++)
-               {
-                    HexInteractions hexAttributesScript = map[c][r].gameObject.GetComponent<HexInteractions>();
-                    if (hexAttributesScript.IsClickable())
-                    {
-                         hexAttributesScript.NotClickable();
-                         hexAttributesScript.OutlineOff();
-                    }
-                    
-               }
+               Instantiate(levelManagerPrefab, this.transform, true);
+               inLevel = true;
           }
      }
 
-     //Combines all actions happening at the end of a round
-     private void RoundEnd()
+     //Combines all actions which happen at the end of a level
+     private void nextLevel()
      {
-          DeselectAllHex();
+          /*if (LevelManager.Instance.GetAction() == 0)
+          {
+               inLevel = false;
+               level++;
+          }*/
+     }
+
+     //returns the current level
+     public int GetLevel()
+     {
+          return level;
      }
 }

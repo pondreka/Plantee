@@ -8,53 +8,74 @@ public class Movement : MonoBehaviour
 {
 
     private GameObject curHex;
-    private List<GameObject> neighborList = new List<GameObject>();
-    private List<GameObject> oldNeighborList = new List<GameObject>();
+
+    [SerializeField] private float movingTime = 1.2f;
     
     private NavMeshAgent robot;
+    
+    
     private void Awake()
     {
         robot = GetComponent<NavMeshAgent>();
     }
+    
 
-    public void MoveToLocation(Vector3 targetPoint)
+    //Starting the movement coroutine
+    public void Move(Vector3 targetPoint)
     {
+        StartCoroutine(MoveToLocation(targetPoint));
+    }
+    //Moves robot to a hex position along the shortest path 
+    private IEnumerator MoveToLocation(Vector3 targetPoint)
+    {
+        while (TempTargetPosition(targetPoint) != targetPoint)
+        {
+            Vector3 tempPosition = TempTargetPosition(targetPoint);
+            robot.destination = tempPosition;
+            robot.isStopped = false;
+            LevelManager.Instance.SetAction(-1);
+
+            yield return new WaitForSeconds(movingTime);
+        }
+
         robot.destination = targetPoint;
         robot.isStopped = false;
+        LevelManager.Instance.SetAction(-1);
+    }
+
+    //Getter for the current hex
+    public GameObject GetCurrentHex()
+    {
+        return curHex;
     }
     
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
-
+    //Detection of the current hex and 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Hex"))
         {
-            curHex = other.gameObject;
-            neighborList = other.gameObject.GetComponentInParent<HexMap>().HexNeighbors(curHex);
-
-            for (int i = 0; i < oldNeighborList.Count; i++)
-            {
-                oldNeighborList[i].gameObject.GetComponent<HexInteractions>().OutlineOff();
-                oldNeighborList[i].gameObject.GetComponent<HexInteractions>().NotClickable();
-            }
-
-            for (int i = 0; i < neighborList.Count; i++)
-            {
-                neighborList[i].gameObject.GetComponent<HexInteractions>().OutlineOn();
-                neighborList[i].gameObject.GetComponent<HexInteractions>().Clickable();
-            }
-
-            oldNeighborList = neighborList;
+            curHex = other.gameObject; 
         }
+    }
+
+    //Calculates the position of the hex closest to the target position
+    private Vector3 TempTargetPosition(Vector3 targetPosition)
+    {
+        List<GameObject> neighbors = LevelManager.Instance.GetHexNeighbors(curHex);
+        GameObject minDistHex = curHex;
+        float minDist = 10000f;
+
+        for (int n = 0; n < neighbors.Count; n++)
+        {
+            float dist = Mathf.Sqrt(Mathf.Pow((targetPosition.x - neighbors[n].transform.position.x), 2f)
+                                  + Mathf.Pow((targetPosition.z - neighbors[n].transform.position.z), 2));
+
+            if (dist < minDist)
+            {
+                minDist = dist;
+                minDistHex = neighbors[n];
+            }
+        }
+        return minDistHex.transform.position;
     }
 }

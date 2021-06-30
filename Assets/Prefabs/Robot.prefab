@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cdb9452e4f30af4e93e7ce2a4a22bd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movingTime: 1.2
 --- !u!195 &3946393180330999008
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -108,7 +109,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 1
+  m_Speed: 1.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120

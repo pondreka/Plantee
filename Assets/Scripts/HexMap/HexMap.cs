@@ -64,9 +64,9 @@ public class HexMap : MonoBehaviour
                     GameObject hexTile = Instantiate(hexTilePrefab, tile.GetPosition(), Quaternion.Euler(-90,90,0), this.transform);
                     hexTile.name = "HexTile_" + column + "_" + row;
                     
-                    hexTile.gameObject.GetComponent<HexAttributes>().SetAllAttributes(Random.Range(0,11),Random.Range(0,11), Random.Range(0,11), Random.Range(0,11));
-                    hexTile.gameObject.GetComponent<HexInteractions>().SetPosition(column, row);
-                    
+                    LevelManager.Instance.SetHexAttributes(hexTile, Random.Range(0,11),Random.Range(0,11), Random.Range(0,11), Random.Range(0,11));
+                    LevelManager.Instance.SetHexPosition(hexTile, column, row);
+
                     cmap.Add(hexTile);
 
                 }
@@ -75,9 +75,9 @@ public class HexMap : MonoBehaviour
                     GameObject hexTile = Instantiate(hexTilePrefab, tile.GetPosition(), Quaternion.Euler(-90,0,0), this.transform);
                     hexTile.name = "HexTile_" + column + "_" + row;
                     
-                    hexTile.gameObject.GetComponent<HexAttributes>().SetAllAttributes(Random.Range(0,11),Random.Range(0,11), Random.Range(0,11), Random.Range(0,11));
-                    hexTile.gameObject.GetComponent<HexInteractions>().SetPosition(column, row);
-                    
+                    LevelManager.Instance.SetHexAttributes(hexTile, Random.Range(0,11),Random.Range(0,11), Random.Range(0,11), Random.Range(0,11));
+                    LevelManager.Instance.SetHexPosition(hexTile, column, row);
+
                     cmap.Add(hexTile);
                 }
             }
@@ -94,42 +94,41 @@ public class HexMap : MonoBehaviour
     //Generates a list with all HexTile neighbors
     public List<GameObject> HexNeighbors(GameObject hex)
     {
-        int column = hex.gameObject.GetComponent<HexInteractions>().GetColumn();
-        int row = hex.gameObject.GetComponent<HexInteractions>().GetRow();
-        
+        Vector2 position = LevelManager.Instance.GetHexPosition(hex);
+
         List<GameObject> neighbors = new List<GameObject>();
 
-        if (row - 1 >= 0)
+        if (position[1] - 1 >= 0)
         {
-            neighbors.Add(map[column][row - 1]);
+            neighbors.Add(map[(int) position[0]][(int) (position[1] - 1)]);
         }
 
-        if (column - 1 >= 0)
+        if (position[0] - 1 >= 0)
         {
-            neighbors.Add(map[column - 1][row]);
+            neighbors.Add(map[(int) (position[0] - 1)][(int) position[1]]);
 
-            if (row + 1 < map[column - 1].Count)
+            if (position[1] + 1 < map[(int) (position[0] - 1)].Count)
             {
-                neighbors.Add(map[column - 1][row + 1]);
+                neighbors.Add(map[(int) (position[0] - 1)][(int) (position[1] + 1)]);
             }
         }
 
-        if (row + 1 < map[column].Count)
+        if (position[1] + 1 < map[(int) position[0]].Count)
         {
-            neighbors.Add(map[column][row + 1]);
+            neighbors.Add(map[(int) position[0]][(int) (position[1] + 1)]);
         }
 
-        if (column + 1 < map.Count)
+        if (position[0] + 1 < map.Count)
         {
-            neighbors.Add(map[column + 1][row]);
+            neighbors.Add(map[(int) (position[0] + 1)][(int) position[1]]);
 
-            if (row - 1 >= 0)
+            if (position[1] - 1 >= 0)
             {
-                neighbors.Add(map[column + 1][row - 1]);
+                neighbors.Add(map[(int) (position[0] + 1)][(int) (position[1] - 1)]);
             }
         }
-        
+
         return neighbors;
     }
-    
+
 }
