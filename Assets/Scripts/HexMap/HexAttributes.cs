@@ -174,9 +174,9 @@ public class HexAttributes : MonoBehaviour
         {
             trash = 0;
         }
-        else if (trash + value > 10)
+        else if (trash + value > 5)
         {
-            trash = 10;
+            trash = 5;
         }
         else
         {
@@ -201,8 +201,7 @@ public class HexAttributes : MonoBehaviour
     private void TrashObjectGenerator()
     {
         int max = 5;
-        int trashNumber = trash / 2;
-        
+
         if (trashList.Count == 0)
         {
             for (int t = 0; t < max; t++)
@@ -214,7 +213,7 @@ public class HexAttributes : MonoBehaviour
                 trashList.Add(trashObject);
                 trashCount++;
 
-                if (t > trashNumber)
+                if (t > trash)
                 {
                     trashList[t].SetActive(false);
                     trashCount--;
@@ -232,26 +231,25 @@ public class HexAttributes : MonoBehaviour
     //Updates the visible number of trash on a hex
     private void UpdateTrash()
     {
-        int trashNumber = trash / 2;
-        if (trashCount < trashNumber)
+        if (trashCount < trash)
         {
-            int addTrash = trashNumber - trashCount;
+            int addTrash = trash - trashCount;
             for (int t = 1; t <= addTrash; t++)
             {
                 trashList[t + trashCount].SetActive(true);
             }
             
         }
-        else if (trashCount > trashNumber)
+        else if (trashCount > trash)
         {
-            int removeTrash = trashCount - trashNumber;
+            int removeTrash = trashCount - trash;
             for (int t = 0; t < removeTrash; t++)
             {
-                trashList[trashCount - t].SetActive(false);
+                trashList[trashCount - t - 1].SetActive(false);
             }
         }
 
-        trashCount = trashNumber;
+        trashCount = trash;
     }
     
     //Updates the color of the hex according to the toxicity

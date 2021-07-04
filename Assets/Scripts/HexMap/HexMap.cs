@@ -64,7 +64,7 @@ public class HexMap : MonoBehaviour
                     GameObject hexTile = Instantiate(hexTilePrefab, tile.GetPosition(), Quaternion.Euler(-90,90,0), this.transform);
                     hexTile.name = "HexTile_" + column + "_" + row;
                     
-                    LevelManager.Instance.SetHexAttributes(hexTile, Random.Range(0,11),Random.Range(0,11), Random.Range(0,11), Random.Range(0,11));
+                    LevelManager.Instance.SetHexAttributes(hexTile, Random.Range(0,11),Random.Range(0,11), Random.Range(0,11), Random.Range(0,6));
                     LevelManager.Instance.SetHexPosition(hexTile, column, row);
 
                     cmap.Add(hexTile);
@@ -75,7 +75,7 @@ public class HexMap : MonoBehaviour
                     GameObject hexTile = Instantiate(hexTilePrefab, tile.GetPosition(), Quaternion.Euler(-90,0,0), this.transform);
                     hexTile.name = "HexTile_" + column + "_" + row;
                     
-                    LevelManager.Instance.SetHexAttributes(hexTile, Random.Range(0,11),Random.Range(0,11), Random.Range(0,11), Random.Range(0,11));
+                    LevelManager.Instance.SetHexAttributes(hexTile, Random.Range(0,11),Random.Range(0,11), Random.Range(0,11), Random.Range(0,6));
                     LevelManager.Instance.SetHexPosition(hexTile, column, row);
 
                     cmap.Add(hexTile);

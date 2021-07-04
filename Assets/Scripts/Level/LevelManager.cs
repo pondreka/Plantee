@@ -22,7 +22,10 @@ public class LevelManager : MonoBehaviour
      [SerializeField] private GameObject mouseManagerPrefab;
      private GameObject mouseManager;
      private MouseManager mouseManagerScript;
-     
+
+     [SerializeField] private GameObject cardManagerPrefab;
+     private GameObject cardManager;
+
 
      private void Awake()
      {
@@ -49,20 +52,26 @@ public class LevelManager : MonoBehaviour
                Debug.LogError("No robot prefab assigned to LevelManager script!");
           }
           
-          if (robotPrefab == null)
+          if (manaBarPrefab == null)
           {
                Debug.LogError("No mana bar prefab assigned to LevelManager script!");
           }
           
-          if (robotPrefab == null)
+          if (mouseManagerPrefab == null)
           {
                Debug.LogError("No mouse manager prefab assigned to LevelManager script!");
+          }
+          
+          if (cardManagerPrefab == null)
+          {
+               Debug.LogError("No card manager prefab assigned to LevelManager script!");
           }
 
           mapManager = Instantiate(hexMapPrefab, this.transform, true);
           robot = Instantiate(robotPrefab, this.transform, true);
           manaBar = Instantiate(manaBarPrefab, this.transform, true);
           mouseManager = Instantiate(mouseManagerPrefab,this.transform, true);
+          cardManager = Instantiate(cardManagerPrefab,this.transform, true);
           manaScript = manaBar.gameObject.GetComponent<Mana>();
           robotScript = robot.gameObject.GetComponent<Movement>();
           mapScript = mapManager.gameObject.GetComponent<HexMap>();
@@ -85,6 +94,7 @@ public class LevelManager : MonoBehaviour
      {
           SetRange(-1);
           manaScript.SetActions(manaScript.GetMaxActions());
+          CardManager.Instance.DrawHand();
      }
 
      
