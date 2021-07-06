@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Tool : MonoBehaviour
@@ -23,5 +24,15 @@ public class Tool : MonoBehaviour
     public int GetRange()
     {
         return range;
+    }
+    
+    public bool IsPlayable(GameObject hex)
+    {
+        return true;
+    }
+
+    public void CardAction()
+    {
+        
     }
 }

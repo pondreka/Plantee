@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -28,6 +29,11 @@ public class HexAttributes : MonoBehaviour
     //Nutrition
     [SerializeField] private Image nutritionBar;
     
+    
+    //Descriptor list
+    private HashSet<string> descriptor = new HashSet<string>();
+    //private Collection<string> descriptor = new Collection<string>();
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -50,8 +56,10 @@ public class HexAttributes : MonoBehaviour
         {
             Debug.LogError("No nutrition bar assigned to Hex script!");
         }
-        
-        
+
+        //trashCount = 0;
+
+
     }
 
     // Update is called once per frame
@@ -211,14 +219,14 @@ public class HexAttributes : MonoBehaviour
                 trashObject.transform.localPosition = new Vector3(0.4f, -0.4f, position);
                 trashObject.name = "Trash_" + t;
                 trashList.Add(trashObject);
-                trashCount++;
 
-                if (t > trash)
+                if (t >= trash)
                 {
                     trashList[t].SetActive(false);
-                    trashCount--;
                 }
             }
+
+            trashCount = trash;
         }
         else
         {
@@ -245,7 +253,7 @@ public class HexAttributes : MonoBehaviour
             int removeTrash = trashCount - trash;
             for (int t = 0; t < removeTrash; t++)
             {
-                trashList[trashCount - t - 1].SetActive(false);
+                trashList[trashCount - t-1].SetActive(false);
             }
         }
 
@@ -275,6 +283,18 @@ public class HexAttributes : MonoBehaviour
     private void UpdateNutrition()
     {
         nutritionBar.fillAmount = nutrition / maxAttributevalue;
+    }
+    
+    //Add tag to descriptor
+    public void AddTag(string tag)
+    {
+        descriptor.Add(tag);
+    }
+    
+    //Getter for descriptor
+    public HashSet<string> GetDescriptor()
+    {
+        return descriptor;
     }
 
 }

@@ -32,7 +32,7 @@ public class MouseManager : MonoBehaviour
     {
         if (LevelManager.Instance.GetCurrentHex() != null)
         {
-            LevelManager.Instance.SelectHexInRange(range);
+            //LevelManager.Instance.SelectHexInRange(range);
 
             Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitInfo;
@@ -40,9 +40,13 @@ public class MouseManager : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(0))
                 {
+                    
+                    
                     //Click on the robot
                     if (hitInfo.collider.CompareTag("Player") && LevelManager.Instance.GetAction() > 0)
                     {
+                        
+                        
                         //robot deselection
                         if (robotSelected)
                         {
@@ -68,6 +72,7 @@ public class MouseManager : MonoBehaviour
 
                             hexSelected = false;
                         }
+                        LevelManager.Instance.SelectHexInRange(range);
                     }
 
                     //Click on a card
@@ -118,12 +123,14 @@ public class MouseManager : MonoBehaviour
                             hexSelected = false;
 
                         }
+                        LevelManager.Instance.SelectHexInRange(range);
                     }
 
                     //Click on trash
                     //TODO: Implement getting a random action card or tool out of the trash
                     if (hitInfo.collider.CompareTag("Trash") && hexSelected)
                     {
+                        
                         hitInfo.collider.GetComponentInParent<HexAttributes>().SetTrash(-1);
                         CardManager.Instance.NewCard(5);
                         
@@ -132,11 +139,13 @@ public class MouseManager : MonoBehaviour
                             hexSelected = false;
                             range = -1;
                         }
+                        LevelManager.Instance.SelectHexInRange(range);
                     }
                     
                     //Click on a hex
                     if (hitInfo.collider.CompareTag("Hex"))
                     {
+                        
                         //Moves only if the robot is selected and the clicked hex is in action range
                         if (robotSelected && hitInfo.collider.GetComponent<HexInteractions>().IsClickable())
                         {
@@ -154,6 +163,7 @@ public class MouseManager : MonoBehaviour
                             CardManager.Instance.Discard(card);
                             cardSelected = false;
                             card.GetComponentInChildren<Outline>().enabled = false;
+                            card.GetComponent<Card>().CardAction();
                             LevelManager.Instance.SetAction(-1);
                             range = -1;
                         }
@@ -166,6 +176,7 @@ public class MouseManager : MonoBehaviour
                             hexSelected = true;
                             range = 0;
                         }
+                        LevelManager.Instance.SelectHexInRange(range);
                     }
 
                 }
@@ -189,5 +200,17 @@ public class MouseManager : MonoBehaviour
     {
         range = r;
     }
-    
+
+    //Getter for the selected card
+    public GameObject GetCurrentCard()
+    {
+        return card;
+    }
+
+    //Getter for the card selected boolean
+    public bool CardSelectd()
+    {
+        return cardSelected;
+    }
+
 }

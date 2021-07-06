@@ -181,4 +181,55 @@ public class Card : MonoBehaviour
 
         return range;
     }
+    
+    //Returns a boolean, if the card can be played on a hex or not
+    public bool IsPlayable(GameObject hexToProve)
+    {
+        switch (cardIndex)
+        {
+            case 0:
+                return nutritionScript.IsPlayable(hexToProve);
+            case 1:
+                return actionScript.IsPlayable(hexToProve);
+            case 2:
+                return seedScript.IsPlayable(hexToProve);
+            case 3:
+                return waterScript.IsPlayable(hexToProve);
+            case 4:
+                return toolScript.IsPlayable(hexToProve);
+            case 5:
+                return trashScript.IsPlayable(hexToProve);
+        }
+
+        return true;
+    }
+
+    
+    //Implements the action of the different card types
+    public void CardAction()
+    {
+        switch (cardIndex)
+        {
+            case 0:
+                nutritionScript.CardAction();
+                break;
+            case 1:
+                actionScript.CardAction();
+                break;
+            case 2:
+                seedScript.CardAction();
+                break;
+            case 3:
+                waterScript.CardAction();
+                break;
+            case 4:
+                toolScript.CardAction();
+                break;
+            case 5:
+                trashScript.CardAction();
+                break;
+        }
+    }
+    
+    
 }

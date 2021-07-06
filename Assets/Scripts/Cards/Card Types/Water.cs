@@ -23,4 +23,14 @@ public class Water : MonoBehaviour
     {
         return range;
     }
+
+    public bool IsPlayable(GameObject hex)
+    {
+        return true;
+    }
+    
+    public void CardAction()
+    {
+        
+    }
 }

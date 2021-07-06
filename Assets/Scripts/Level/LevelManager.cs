@@ -205,9 +205,22 @@ public class LevelManager : MonoBehaviour
           return mouseManagerScript.RobotSelected();
      }
 
+     //Global getter for the selection of the card boolean
+     public bool CardSelected()
+     {
+          return mouseManagerScript.CardSelectd();
+     }
+
+     //Global setter for the range of hexTiles in mouseManager
      public void SetRange(int range)
      {
           mouseManagerScript.SetRange(range);
+     }
+
+     //Global getter for the current card
+     public GameObject GetCurrentCard()
+     {
+          return mouseManagerScript.GetCurrentCard();
      }
      
 }

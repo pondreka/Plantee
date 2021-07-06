@@ -24,4 +24,14 @@ public class Seed : MonoBehaviour
     {
         return range;
     }
+    
+    public bool IsPlayable(GameObject hex)
+    {
+        return true;
+    }
+    
+    public void CardAction()
+    {
+        
+    }
 }

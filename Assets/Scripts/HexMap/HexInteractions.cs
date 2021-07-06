@@ -126,6 +126,7 @@ public class HexInteractions : MonoBehaviour
             List<bool> temp = new List<bool>();
             for (int r = 0; r < map[c].Count; r++)
             {
+                
                 if (range <= 0)
                 {
                     map[c][r].gameObject.GetComponent<HexInteractions>().NotClickable();
@@ -144,6 +145,12 @@ public class HexInteractions : MonoBehaviour
 
                     temp.Add(InRange(map[c][r], range));
 
+                }
+
+                if (LevelManager.Instance.CardSelected() && !LevelManager.Instance.GetCurrentCard().GetComponent<Card>().IsPlayable(map[c][r]))
+                {
+                    map[c][r].gameObject.GetComponent<HexInteractions>().NotClickable();
+                    temp[r] = false;
                 }
             }
             inRange.Add(temp);
