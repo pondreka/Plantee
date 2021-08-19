@@ -55,7 +55,14 @@ public class Nutrition : MonoBehaviour
     {
         if (nutrition + n > 0)
         {
-            nutrition += n;
+            if (nutrition + n > 3)
+            {
+                nutrition = 3;
+            }
+            else
+            {
+                nutrition += n;
+            }
         }
         else
         {
@@ -65,6 +72,13 @@ public class Nutrition : MonoBehaviour
 
     public bool IsPlayable(GameObject hex)
     {
+        int hexNutrition = hex.gameObject.GetComponent<HexAttributes>().GetNutrition();
+        if ((hexNutrition + nutrition > 10 && nutrition == 1) 
+            || (hexNutrition + nutrition > 11 && nutrition == 2)
+            || (hexNutrition + nutrition > 12 && nutrition == 3))
+        {
+            return false;
+        }
         return true;
     }
     
@@ -74,7 +88,7 @@ public class Nutrition : MonoBehaviour
 
         for (int i = 0; i < hexes.Count; i++)
         {
-            hexes[i].GetComponent<HexAttributes>().SetWater(nutrition);
+            hexes[i].GetComponent<HexAttributes>().SetNutrition(nutrition);
         }
         
     }

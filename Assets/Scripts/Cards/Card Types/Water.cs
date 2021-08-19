@@ -55,7 +55,14 @@ public class Water : MonoBehaviour
     {
         if (water + w > 0)
         {
-            water += w;
+            if (water + w > 3)
+            {
+                water = 3;
+            }
+            else
+            {
+                water += w;
+            }
         }
         else
         {
@@ -65,6 +72,13 @@ public class Water : MonoBehaviour
 
     public bool IsPlayable(GameObject hex)
     {
+        int hexWater = hex.gameObject.GetComponent<HexAttributes>().GetWater();
+        if ((hexWater + water > 10 && water == 1) 
+            || (hexWater + water > 11 && water == 2)
+            || (hexWater + water > 12 && water == 3))
+        {
+            return false;
+        }
         return true;
     }
     

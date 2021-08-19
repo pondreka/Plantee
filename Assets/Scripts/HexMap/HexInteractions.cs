@@ -10,6 +10,9 @@ public class HexInteractions : MonoBehaviour
     private int columnPos = -1;
     private int rowPos = -1;
 
+    private bool hasPlant = false;
+    private bool notPlayable = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -79,7 +82,17 @@ public class HexInteractions : MonoBehaviour
         isClickable = true;
     }
 
-    
+    //A plant is currently on the hex
+    public bool HasPlant()
+    {
+        return hasPlant;
+    }
+
+    //Changes plant status on hex
+    public void Plant()
+    {
+        hasPlant = !hasPlant;
+    }
     
     //Outline On
     public void OutlineOn()
@@ -117,6 +130,7 @@ public class HexInteractions : MonoBehaviour
     //Marks all hex in range
     public List<List<bool>> HexInRange(int range)
     {
+        notPlayable = false;
         List<List<bool>> inRange = new List<List<bool>>();
 
         List<List<GameObject>> map = LevelManager.Instance.GetHexMap();
@@ -151,6 +165,10 @@ public class HexInteractions : MonoBehaviour
                 {
                     map[c][r].gameObject.GetComponent<HexInteractions>().NotClickable();
                     temp[r] = false;
+                    if (map[c][r] == this.gameObject)
+                    {
+                        notPlayable = true;
+                    }
                 }
             }
             inRange.Add(temp);
@@ -159,7 +177,7 @@ public class HexInteractions : MonoBehaviour
         //If the current hex can be selected or not depends on movement or interaction with the hex
         //No selection for Movement
         //Selection for Interaction
-        if (range == 0 && !LevelManager.Instance.RobotSelected())
+        if (range == 0 && !LevelManager.Instance.RobotSelected() && !notPlayable)
         {
             Clickable();
             inRange[columnPos][rowPos] = true;
@@ -172,6 +190,6 @@ public class HexInteractions : MonoBehaviour
 
         return inRange;
     }
-    
+    //&& LevelManager.Instance.GetCurrentCard().GetComponent<Card>().IsPlayable(this.gameObject)
     
 }
