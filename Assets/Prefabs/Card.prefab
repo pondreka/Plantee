@@ -294,6 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edd88d0fd36688e4d81bd24603988bbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  plantPrefab: {fileID: 6534977523728224806, guid: faaa91fe247dd7342a6e6788d0defdc3, type: 3}
 --- !u!114 &3141595830391014425
 MonoBehaviour:
   m_ObjectHideFlags: 0

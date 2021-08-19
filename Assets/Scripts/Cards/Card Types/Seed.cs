@@ -41,12 +41,22 @@ public class Seed : MonoBehaviour
     
     public bool IsPlayable(GameObject hex)
     {
+        if (hex.gameObject.GetComponent<HexInteractions>().HasPlant())
+        {
+            return false;
+        }
         return true;
     }
     
     public void CardAction(GameObject hex)
     {
-        GameObject plant = Instantiate(plantPrefab, hex.transform, false);
-        plant.GetComponent<Plant>().SetAttributes(water, nutrition, toxicity, spreading);
+        if (!hex.gameObject.GetComponent<HexInteractions>().HasPlant())
+        {
+            GameObject plant = Instantiate(plantPrefab, hex.transform, false);
+            plant.gameObject.transform.localPosition = new Vector3(0,0,0.2f);
+            plant.gameObject.GetComponent<Plant>().SetAttributes(water, nutrition, toxicity, spreading);
+            hex.gameObject.GetComponent<HexInteractions>().Plant();
+        }
+        
     }
 }
