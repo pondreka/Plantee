@@ -159,7 +159,7 @@ public class HexAttributes : MonoBehaviour
         {
             toxicity += value;
         }
-        UpdateToxixity();
+        UpdateToxicity();
     }
     
     
@@ -261,16 +261,9 @@ public class HexAttributes : MonoBehaviour
     }
     
     //Updates the color of the hex according to the toxicity
-    private void UpdateToxixity()
+    private void UpdateToxicity()
     {
-
-        for (int i = 0; i < 11; i++)
-        {
-            if (i == toxicity)
-            {
-                gameObject.GetComponent<Renderer>().material.color = new Color(0.4f, 0.1f + i * 0.06f, 0f);
-            }
-        }
+        gameObject.GetComponent<Renderer>().material.color = new Color(0.4f, 0.1f + toxicity * 0.06f, 0f);
     }
 
     //Updates water bar

@@ -206,21 +206,21 @@ public class Card : MonoBehaviour
 
     
     //Implements the action of the different card types
-    public void CardAction()
+    public void CardAction(GameObject hex)
     {
         switch (cardIndex)
         {
             case 0:
-                nutritionScript.CardAction();
+                nutritionScript.CardAction(hex);
                 break;
             case 1:
                 actionScript.CardAction();
                 break;
             case 2:
-                seedScript.CardAction();
+                seedScript.CardAction(hex);
                 break;
             case 3:
-                waterScript.CardAction();
+                waterScript.CardAction(hex);
                 break;
             case 4:
                 toolScript.CardAction();

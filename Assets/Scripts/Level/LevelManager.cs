@@ -132,15 +132,15 @@ public class LevelManager : MonoBehaviour
 
      //Returns a list of all hex in range from the current hex
      //turns the  clickable attribute accordingly
-     public List<List<bool>> GetHexInRange(int range)
+     public List<List<bool>> GetHexInRange(int range, GameObject hex)
      {
-          return GetCurrentHex().gameObject.GetComponent<HexInteractions>().HexInRange(range);
+          return hex.gameObject.GetComponent<HexInteractions>().HexInRange(range);
      }
      
      //Selection of hexes
      public void SelectHexInRange(int range)
      {
-          List<List<bool>> inRange = GetHexInRange(range);
+          List<List<bool>> inRange = GetHexInRange(range, GetCurrentHex());
           List<List<GameObject>> map = GetHexMap();
 
           for (int c = 0; c < map.Count; c++)
@@ -157,6 +157,27 @@ public class LevelManager : MonoBehaviour
                     }
                }
           }
+     }
+     
+     //Returning Hexes in range
+     public List<GameObject> GetHexes(int range, GameObject hex)
+     {
+          List<List<bool>> inRange = GetHexInRange(range, hex);
+          List<List<GameObject>> map = GetHexMap();
+          List<GameObject> hexes = new List<GameObject>();
+
+          for (int c = 0; c < map.Count; c++)
+          {
+               for (int r = 0; r < map[c].Count; r++)
+               {
+                    if (inRange[c][r])
+                    {
+                         hexes.Add(map[c][r]);
+                    }
+               }
+          }
+
+          return hexes;
      }
 
      //Global getter for the neighbors of the current hex

@@ -161,10 +161,10 @@ public class MouseManager : MonoBehaviour
                         else if (cardSelected && hitInfo.collider.GetComponent<HexInteractions>().IsClickable())
                         {
                             CardManager.Instance.Discard(card);
+                            card.GetComponent<Card>().CardAction(hitInfo.collider.gameObject);
+                            LevelManager.Instance.SetAction(-1);
                             cardSelected = false;
                             card.GetComponentInChildren<Outline>().enabled = false;
-                            card.GetComponent<Card>().CardAction();
-                            LevelManager.Instance.SetAction(-1);
                             range = -1;
                         }
                         
