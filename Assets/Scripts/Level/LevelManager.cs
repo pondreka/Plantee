@@ -194,6 +194,15 @@ public class LevelManager : MonoBehaviour
      {
           return robotScript.GetCurrentHex();
      }
+     
+     //Getter for the position of a hex tile (column, row)
+     public Vector2 GetCurrentHexPosition()
+     {
+          int column = GetCurrentHex().gameObject.GetComponent<HexInteractions>().GetColumn();
+          int row = GetCurrentHex().gameObject.GetComponent<HexInteractions>().GetRow();
+          
+          return new Vector2(column,row);
+     }
 
      //robot movement
      public void MoveToLocation(Vector3 targetPoint)

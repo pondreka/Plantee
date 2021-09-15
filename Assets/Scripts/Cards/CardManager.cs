@@ -140,7 +140,7 @@ public class CardManager : MonoBehaviour
                 cardScript.FlipCard();
                 cardScript.OnHand();
             }
-            hand[c].transform.localPosition = new Vector3(- 1 - c, hand[c].transform.localPosition.y, hand[c].transform.localPosition.z);
+            hand[c].transform.localPosition = new Vector3(-11 * c, -59, -13);
         }
     }
 
@@ -160,6 +160,11 @@ public class CardManager : MonoBehaviour
         {
             discard = new List<GameObject>();
         }
+
+        for (int i = 0; i < discard.Count; i++)
+        {
+            discard[i].gameObject.GetComponent<SpriteRenderer>().sortingOrder = 0;
+        }
         
         discard.Add(card);
         
@@ -168,12 +173,9 @@ public class CardManager : MonoBehaviour
             card.gameObject.GetComponent<Card>().OnHand();
         }
         
-        card.transform.localPosition = new Vector3(-4.4f, 2.35f, card.transform.localPosition.z);
+        card.transform.localPosition = new Vector3(-11f, 0f, -10f);
+        card.gameObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
         
-        //TODO: Fix the scaling bug, maybe has something to do with the Flip
-        //Debug.Log(card.transform.localScale);
-        //card.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
-        //Debug.Log(card.transform.localScale);
     }
 
     //Deletes a card if only usable once
@@ -194,7 +196,6 @@ public class CardManager : MonoBehaviour
         {
             deck.Add(discard[c]);
             discard[c].transform.localPosition = new Vector3(0, 0, 0);
-            //discard[c].transform.localScale = new Vector3(1f, 1f, 1f);
             discard[c].gameObject.GetComponent<Card>().FlipCard();
         }
             

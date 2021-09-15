@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
 
      private bool inLevel = false;
 
-     private int level = 2;
+     private int level = 3;
      
      private void Awake()
      {

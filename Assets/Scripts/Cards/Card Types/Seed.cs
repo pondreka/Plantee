@@ -53,7 +53,7 @@ public class Seed : MonoBehaviour
         if (!hex.gameObject.GetComponent<HexInteractions>().HasPlant())
         {
             GameObject plant = Instantiate(plantPrefab, hex.transform, false);
-            plant.gameObject.transform.localPosition = new Vector3(0,0,0.2f);
+            plant.gameObject.transform.localPosition = new Vector3(-0.25f,0.1f,0.2f);
             plant.gameObject.GetComponent<Plant>().SetAttributes(water, nutrition, toxicity, spreading);
             hex.gameObject.GetComponent<HexInteractions>().Plant();
         }

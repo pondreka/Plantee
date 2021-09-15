@@ -28,8 +28,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 390688071338390183}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.01}
-  m_LocalScale: {x: 1.02, y: 1.68, z: 0.01}
+  m_LocalPosition: {x: 0, y: 0, z: -0.01}
+  m_LocalScale: {x: 1.04, y: 1.7, z: 0.01}
   m_Children: []
   m_Father: {fileID: 1060839571871692849}
   m_RootOrder: 0
@@ -108,9 +108,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMode: 0
-  outlineColor: {r: 0, g: 0.69419146, b: 1, a: 1}
-  outlineWidth: 4
+  outlineMode: 3
+  outlineColor: {r: 0, g: 0.8818593, b: 1, a: 1}
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -147,7 +147,7 @@ Transform:
   m_GameObject: {fileID: 1060839571871692850}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children:
   - {fileID: 3764941143346754276}
   m_Father: {fileID: 0}
@@ -229,27 +229,27 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.4967003
-      inSlope: -0.98777616
-      outSlope: -0.98777616
+      value: 10
+      inSlope: -20
+      outSlope: -20
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.50000465
-      value: 0.0028076172
-      inSlope: 0.0047127604
-      outSlope: 0.0047127604
+      time: 0.5
+      value: 0
+      inSlope: 0
+      outSlope: 0
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 0.5014038
-      inSlope: 0.9972017
-      outSlope: 0.9972017
+      value: 10
+      inSlope: 20
+      outSlope: 20
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334

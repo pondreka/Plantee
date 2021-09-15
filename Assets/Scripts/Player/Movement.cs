@@ -33,14 +33,12 @@ public class Movement : MonoBehaviour
             Vector3 tempPosition = TempTargetPosition(targetPoint);
             robot.destination = tempPosition;
             robot.isStopped = false;
-            LevelManager.Instance.SetAction(-1);
-
+            
             yield return new WaitForSeconds(movingTime);
         }
 
         robot.destination = targetPoint;
         robot.isStopped = false;
-        LevelManager.Instance.SetAction(-1);
     }
 
     //Getter for the current hex

@@ -22,7 +22,7 @@ public class HexPosition
 
     public Vector3 GetPosition()
     {
-        float height = 2 * Radius;
+        float height = 2 * Radius * 10;
         float width = WIDTH_MULTIPLIER * height;
         float horizontalPosition = width;
         float verticalPosition = height * 0.75f;

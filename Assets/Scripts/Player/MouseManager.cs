@@ -149,11 +149,29 @@ public class MouseManager : MonoBehaviour
                         //Moves only if the robot is selected and the clicked hex is in action range
                         if (robotSelected && hitInfo.collider.GetComponent<HexInteractions>().IsClickable())
                         {
+                            Vector2 targetPosition = LevelManager.Instance.GetHexPosition(hitInfo.collider.gameObject);
+                            Vector2 currentPosition = LevelManager.Instance.GetCurrentHexPosition();
                             LevelManager.Instance.MoveToLocation(hitInfo.transform.position);
                             robotSelected = false;
                             robotOutline.enabled = false;
                             range = -1;
+
+                            //Getting the walking distance of the robot for mana update
+                            int posRange = 0;
                             
+                            //Special case walking on the diagonal down right
+                            if (currentPosition.y - targetPosition.y > 0 && currentPosition.x - targetPosition.x < 0)
+                            {
+                                posRange = (int)Mathf.Max(Mathf.Abs(targetPosition.x - currentPosition.x),
+                                    Mathf.Abs(targetPosition.y - currentPosition.y));
+                            }
+                            else
+                            {
+                                posRange = (int) (Mathf.Abs(targetPosition.x - currentPosition.x) +
+                                                  Mathf.Abs(targetPosition.y - currentPosition.y));
+                            }
+                            
+                            LevelManager.Instance.SetAction(- posRange);
                         }
 
                         //Action is fulfilled only if the hex is in range and a card is selected
