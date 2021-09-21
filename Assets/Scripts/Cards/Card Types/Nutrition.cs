@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class Nutrition : MonoBehaviour
 {
-    private int cardRange = 0;
-    private int nutrition = 1;
-    private int actionRange = 0;
-
+    private CardBasic basicScript;
     // Start is called before the first frame update
     void Start()
     {
-        
+        basicScript = GetComponent<CardBasic>();
     }
 
     // Update is called once per frame
@@ -19,61 +16,16 @@ public class Nutrition : MonoBehaviour
     {
         
     }
-
-    //TODO: Implement water changing hex attributes
     
-    public int GetRange()
-    {
-        return cardRange;
-    }
 
-    public void SetCardRange(int r)
-    {
-        if (r + cardRange > 0)
-        {
-            cardRange += r;
-        }
-        else
-        {
-            cardRange = 0;
-        }
-    }
-    
-    public void SetActionRange(int r)
-    {
-        if (r + actionRange > 0)
-        {
-            actionRange += r;
-        }
-        else
-        {
-            actionRange = 0;
-        }
-    }
-
-    public void SetNutrition(int n)
-    {
-        if (nutrition + n > 0)
-        {
-            if (nutrition + n > 3)
-            {
-                nutrition = 3;
-            }
-            else
-            {
-                nutrition += n;
-            }
-        }
-        else
-        {
-            nutrition = 1;
-        }
-    }
-
+    //Returns if a card can be played on a specific hex
     public bool IsPlayable(GameObject hex)
     {
+        
+        int nutrition = basicScript.CurActionValue;
+        
         int hexNutrition = hex.gameObject.GetComponent<HexAttributes>().GetNutrition();
-        if ((hexNutrition + nutrition > 10 && nutrition == 1) 
+        if ((hexNutrition + nutrition > 10 && nutrition  == 1) 
             || (hexNutrition + nutrition > 11 && nutrition == 2)
             || (hexNutrition + nutrition > 12 && nutrition == 3))
         {
@@ -82,13 +34,15 @@ public class Nutrition : MonoBehaviour
         return true;
     }
     
+    //Plays a card action
     public void CardAction(GameObject hex)
     {
-        List<GameObject> hexes = LevelManager.Instance.GetHexes(actionRange, hex);
+        
+        List<GameObject> hexes = LevelManager.Instance.GetHexes(basicScript.CurActionRange, hex);
 
         for (int i = 0; i < hexes.Count; i++)
         {
-            hexes[i].GetComponent<HexAttributes>().SetNutrition(nutrition);
+            hexes[i].GetComponent<HexAttributes>().SetNutrition(basicScript.CurActionValue);
         }
         
     }

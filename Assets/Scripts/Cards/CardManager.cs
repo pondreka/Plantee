@@ -9,7 +9,9 @@ public class CardManager : MonoBehaviour
     public static CardManager Instance => _instance;
     
     
-    [SerializeField] private GameObject cardPrefab;
+    public GameObject waterCardPrefab;
+    public GameObject nutritionCardPrefab;
+    public GameObject trashCardPrefab;
     private List<GameObject> deck;
     private List<GameObject> discard;
     private List<GameObject> hand;
@@ -36,11 +38,6 @@ public class CardManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (cardPrefab == null)
-        {
-            Debug.LogError("No card prefab assigned to CardManager!");
-        }
-        
         InitializeDeck();
     }
 
@@ -66,24 +63,23 @@ public class CardManager : MonoBehaviour
             hand = new List<GameObject>();
         }
 
-        for (int i = 0; i < seeds; i++)
+        //TODO:Random seed selection
+        /*for (int i = 0; i < seeds; i++)
         {
             GameObject card = Instantiate(cardPrefab, this.transform, false);
             card.GetComponent<Card>().SetIndex(2);
             deck.Add(card);
-        }
+        }*/
 
         for (int i = 0; i < water; i++)
         {
-            GameObject card = Instantiate(cardPrefab, this.transform, false);
-            card.GetComponent<Card>().SetIndex(3);
+            GameObject card = Instantiate(waterCardPrefab, this.transform, false);
             deck.Add(card);
         }
 
         for (int i = 0; i < nutrition; i++)
         {
-            GameObject card = Instantiate(cardPrefab, this.transform, false);
-            card.GetComponent<Card>().SetIndex(0);
+            GameObject card = Instantiate(nutritionCardPrefab, this.transform, false);
             deck.Add(card);
         }
         Shuffle();
@@ -134,7 +130,7 @@ public class CardManager : MonoBehaviour
 
         for (int c = 0; c < hand.Count; c++)
         {
-            Card cardScript = hand[c].gameObject.GetComponent<Card>();
+            CardBasic cardScript = hand[c].gameObject.GetComponent<CardBasic>();
             if (!cardScript.IsOnHand())
             {
                 cardScript.FlipCard();
@@ -163,18 +159,18 @@ public class CardManager : MonoBehaviour
 
         for (int i = 0; i < discard.Count; i++)
         {
-            discard[i].gameObject.GetComponent<SpriteRenderer>().sortingOrder = 0;
+            discard[i].gameObject.transform.GetChild(2).GetComponent<Canvas>().sortingOrder = 0;
         }
         
         discard.Add(card);
         
         if (hand.Remove(card))
         {
-            card.gameObject.GetComponent<Card>().OnHand();
+            card.gameObject.GetComponent<CardBasic>().OnHand();
         }
         
         card.transform.localPosition = new Vector3(-11f, 0f, -10f);
-        card.gameObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
+        card.gameObject.transform.GetChild(2).GetComponent<Canvas>().sortingOrder = 1;
         
     }
 
@@ -183,7 +179,7 @@ public class CardManager : MonoBehaviour
     {
         if (hand.Remove(card))
         {
-            card.gameObject.GetComponent<Card>().OnHand();
+            card.gameObject.GetComponent<CardBasic>().OnHand();
         }
         
         Destroy(card);
@@ -196,20 +192,35 @@ public class CardManager : MonoBehaviour
         {
             deck.Add(discard[c]);
             discard[c].transform.localPosition = new Vector3(0, 0, 0);
-            discard[c].gameObject.GetComponent<Card>().FlipCard();
+            discard[c].gameObject.GetComponent<CardBasic>().FlipCard();
         }
             
         discard.Clear();
         Shuffle();
     }
     
+    //TODO: Write function for random initialisation of seeds and action cards
     //Instantiate new card of type index and putting it on the discard
     public void NewCard(int index)
     {
-        GameObject card = Instantiate(cardPrefab, this.transform, false);
-        Card cardScript = card.GetComponent<Card>();
-        cardScript.SetIndex(index);
+        GameObject card = new GameObject();
+        
+        switch (index)
+        {
+            case 0:
+                card = Instantiate(waterCardPrefab, this.transform, false);
+                break;
+            case 1:
+                card = Instantiate(nutritionCardPrefab, this.transform, false);
+                break;
+            case 2:
+                card = Instantiate(trashCardPrefab, this.transform, false);
+                break;
+        }
+        
+        CardBasic cardScript = card.GetComponent<CardBasic>();
         cardScript.FlipCard();
         Discard(card);
+        
     }
 }

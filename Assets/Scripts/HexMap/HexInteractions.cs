@@ -161,7 +161,7 @@ public class HexInteractions : MonoBehaviour
 
                 }
 
-                if (LevelManager.Instance.CardSelected() && !LevelManager.Instance.GetCurrentCard().GetComponent<Card>().IsPlayable(map[c][r]))
+                if (LevelManager.Instance.CardSelected() && !LevelManager.Instance.GetCurrentCard().GetComponent<CardBasic>().IsPlayable(map[c][r]))
                 {
                     map[c][r].gameObject.GetComponent<HexInteractions>().NotClickable();
                     temp[r] = false;

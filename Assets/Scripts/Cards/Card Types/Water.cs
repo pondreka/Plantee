@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class Water : MonoBehaviour
 {
-    private int cardRange = 0;
-    private int water = 1;
-    private int actionRange = 0;
+    private CardBasic basicScript;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        basicScript = GetComponent<CardBasic>();
     }
 
     // Update is called once per frame
@@ -20,58 +18,12 @@ public class Water : MonoBehaviour
         
     }
 
-    //TODO: Implement water changing hex attributes
-    
-    public int GetRange()
-    {
-        return cardRange;
-    }
-
-    public void SetCardRange(int r)
-    {
-        if (r + cardRange > 0)
-        {
-            cardRange += r;
-        }
-        else
-        {
-            cardRange = 0;
-        }
-    }
-    
-    public void SetActionRange(int r)
-    {
-        if (r + actionRange > 0)
-        {
-            actionRange += r;
-        }
-        else
-        {
-            actionRange = 0;
-        }
-    }
-
-    public void SetWater(int w)
-    {
-        if (water + w > 0)
-        {
-            if (water + w > 3)
-            {
-                water = 3;
-            }
-            else
-            {
-                water += w;
-            }
-        }
-        else
-        {
-            water = 1;
-        }
-    }
-
+    //Returns if a card can be played on a specific hex
     public bool IsPlayable(GameObject hex)
     {
+        
+        int water = basicScript.CurActionValue;
+        
         int hexWater = hex.gameObject.GetComponent<HexAttributes>().GetWater();
         if ((hexWater + water > 10 && water == 1) 
             || (hexWater + water > 11 && water == 2)
@@ -82,13 +34,15 @@ public class Water : MonoBehaviour
         return true;
     }
     
+    //Plays a card action
     public void CardAction(GameObject hex)
     {
-        List<GameObject> hexes = LevelManager.Instance.GetHexes(actionRange, hex);
+        
+        List<GameObject> hexes = LevelManager.Instance.GetHexes(basicScript.CurActionRange, hex);
 
         for (int i = 0; i < hexes.Count; i++)
         {
-            hexes[i].GetComponent<HexAttributes>().SetWater(water);
+            hexes[i].GetComponent<HexAttributes>().SetWater(basicScript.CurActionValue);
         }
         
     }

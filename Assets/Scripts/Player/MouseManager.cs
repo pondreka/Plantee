@@ -76,7 +76,7 @@ public class MouseManager : MonoBehaviour
                     }
 
                     //Click on a card
-                    if (hitInfo.collider.CompareTag("Card") && hitInfo.collider.GetComponentInParent<Card>().IsOnHand())
+                    if (hitInfo.collider.CompareTag("Card") && hitInfo.collider.GetComponentInParent<CardBasic>().IsOnHand())
                     {
                         
                         Outline cardOutline = hitInfo.collider.GetComponent<Outline>();
@@ -98,7 +98,7 @@ public class MouseManager : MonoBehaviour
                                 card.GetComponentInChildren<Outline>().enabled = false;
                                 card = hitInfo.collider.transform.parent.gameObject;
                                 cardOutline.enabled = true;
-                                range = card.GetComponent<Card>().GetRange();
+                                range = card.GetComponent<CardBasic>().CurCardRange;
                             }
                             
                         }
@@ -111,7 +111,7 @@ public class MouseManager : MonoBehaviour
                             cardOutline.enabled = true;
                             
                             //TODO: Implement the different types of range depending on the card
-                            range = card.GetComponent<Card>().GetRange();
+                            range = card.GetComponent<CardBasic>().CurCardRange;
 
                             //robot deselection
                             if (robotSelected)
@@ -132,7 +132,7 @@ public class MouseManager : MonoBehaviour
                     {
                         
                         hitInfo.collider.GetComponentInParent<HexAttributes>().SetTrash(-1);
-                        CardManager.Instance.NewCard(5);
+                        CardManager.Instance.NewCard(2);
                         
                         if (hitInfo.collider.GetComponentInParent<HexAttributes>().GetTrash() == 0)
                         {
@@ -179,7 +179,7 @@ public class MouseManager : MonoBehaviour
                         else if (cardSelected && hitInfo.collider.GetComponent<HexInteractions>().IsClickable())
                         {
                             CardManager.Instance.Discard(card);
-                            card.GetComponent<Card>().CardAction(hitInfo.collider.gameObject);
+                            card.GetComponent<CardBasic>().CardAction(hitInfo.collider.gameObject);
                             LevelManager.Instance.SetAction(-1);
                             cardSelected = false;
                             card.GetComponentInChildren<Outline>().enabled = false;
