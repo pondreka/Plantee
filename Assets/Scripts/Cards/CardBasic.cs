@@ -40,8 +40,6 @@ public class CardBasic : MonoBehaviour
     public int CurCost => curCost;
     
     
-    //TODO: Implement random selection of text for tools and action cards
-    
     void Awake()
     {
         back = transform.GetChild(1).GetComponent<Canvas>();
@@ -51,19 +49,19 @@ public class CardBasic : MonoBehaviour
         showFront = false;
         onHand = false;
         
+        //Not changeable attributes
         name.text = card.name;
         action.text = card.action;
-        cost.text = card.cost.ToString();
-        curCost = card.cost;
-        cardRange.text = card.cardRange.ToString();
-        curCardRange = card.cardRange;
         foreground.sprite = card.foreground;
-        actionValue.text = card.actionValue.ToString();
-        curActionValue = card.actionValue;
-        actionRange.text = card.actionRange.ToString();
-        curActionRange = card.actionRange;
-
         index = card.index;
+        
+        //Changeable attributes
+        SetCost(card.cost);
+        SetCardRange(card.cardRange);
+        SetActionRange(card.actionRange);
+        SetActionValue(card.actionValue);
+        
+        
     }
     
     // Start is called before the first frame update
@@ -144,22 +142,39 @@ public class CardBasic : MonoBehaviour
     public void SetCardRange(int range)
     {
         curCardRange = range;
-        cardRange.text = range.ToString();
+        if (range >= 0 && range < 10)
+        {
+            transform.GetChild(2).GetChild(6).GetComponent<Image>().enabled = true;
+            cardRange.text = range.ToString();
+        }
+        else
+        {
+            transform.GetChild(2).GetChild(6).GetComponent<Image>().enabled = false;
+            cardRange.text = "";
+        }
     }
 
     public void SetActionRange(int range)
     {
         curActionRange = range;
-        actionRange.text = range.ToString();
+        if (range >= 0 && range < 10)
+        {
+            transform.GetChild(2).GetChild(8).GetComponent<Image>().enabled = true;
+            actionRange.text = range.ToString();
+        }
+        else
+        {
+            transform.GetChild(2).GetChild(8).GetComponent<Image>().enabled = false;
+            actionRange.text = "";
+        }
+        
     }
 
     public void SetActionValue(int value)
     {
-        if (value < 7 && value >= 0)
-        {
-            curActionValue = value;
-            actionValue.text = value.ToString();
-        }
+        curActionValue = value;
+        actionValue.text = value.ToString();
+        
     }
 
     public void SetCost(int c)
@@ -214,7 +229,7 @@ public class CardBasic : MonoBehaviour
                 break;
             case 2:
                 Trash trashScript = GetComponent<Trash>();
-                trashScript.CardAction();
+                trashScript.CardAction(hex);
                 break;
             case 3:
                 CardSeed seedScript = GetComponent<CardSeed>();

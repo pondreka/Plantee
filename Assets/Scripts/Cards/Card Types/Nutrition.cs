@@ -21,17 +21,21 @@ public class Nutrition : MonoBehaviour
     //Returns if a card can be played on a specific hex
     public bool IsPlayable(GameObject hex)
     {
-        
-        int nutrition = basicScript.CurActionValue;
-        
-        int hexNutrition = hex.gameObject.GetComponent<HexAttributes>().GetNutrition();
-        if ((hexNutrition + nutrition > 10 && nutrition  == 1) 
-            || (hexNutrition + nutrition > 11 && nutrition == 2)
-            || (hexNutrition + nutrition > 12 && nutrition == 3))
+        if (!hex.gameObject.GetComponent<HexInteractions>().IsDump())
         {
-            return false;
+            int nutrition = basicScript.CurActionValue;
+
+            int hexNutrition = hex.gameObject.GetComponent<HexAttributes>().GetNutrition();
+            if ((hexNutrition + nutrition > 10 && nutrition == 1)
+                || (hexNutrition + nutrition > 11 && nutrition == 2)
+                || (hexNutrition + nutrition > 12 && nutrition == 3))
+            {
+                return false;
+            }
+
+            return true;
         }
-        return true;
+        return false;
     }
     
     //Plays a card action
@@ -44,6 +48,8 @@ public class Nutrition : MonoBehaviour
         {
             hexes[i].GetComponent<HexAttributes>().SetNutrition(basicScript.CurActionValue);
         }
+        
+        CardManager.Instance.Discard(this.gameObject);
         
     }
 }

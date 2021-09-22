@@ -21,7 +21,10 @@ public class CardManager : MonoBehaviour
     [SerializeField] private int seeds = 5;
     [SerializeField] private int water = 5;
     [SerializeField] private int nutrition = 3;
-    
+    [SerializeField] private GameObject[] seedVariants;
+    [SerializeField] private GameObject[] actionVariants;
+    [SerializeField] private GameObject[] toolVariants;
+
 
     private void Awake()
     {
@@ -44,7 +47,10 @@ public class CardManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (hand.Count == 0)
+        {
+            DrawHand();
+        }
     }
 
     private void InitializeDeck()
@@ -62,14 +68,12 @@ public class CardManager : MonoBehaviour
         {
             hand = new List<GameObject>();
         }
-
-        //TODO:Random seed selection
-        /*for (int i = 0; i < seeds; i++)
+        
+        for (int i = 0; i < seeds; i++)
         {
-            GameObject card = Instantiate(cardPrefab, this.transform, false);
-            card.GetComponent<Card>().SetIndex(2);
+            GameObject card = RandomCardSelection(3);
             deck.Add(card);
-        }*/
+        }
 
         for (int i = 0; i < water; i++)
         {
@@ -84,6 +88,32 @@ public class CardManager : MonoBehaviour
         }
         Shuffle();
         DrawHand();
+    }
+    
+    //Random card selection of a specific card type
+    private GameObject RandomCardSelection(int index)
+    {
+        GameObject card;
+        int rand = 0;
+        
+        switch (index)
+        {
+            case 3:
+                rand = Random.Range(0, seedVariants.Length);
+                card = Instantiate(seedVariants[rand], this.transform, false);
+                return card;
+            case 4:
+                rand = Random.Range(0, actionVariants.Length);
+                card = Instantiate(actionVariants[rand], this.transform, false);
+                return card;
+            case 5:
+                rand = Random.Range(0, toolVariants.Length);
+                card = Instantiate(toolVariants[rand], this.transform, false);
+                return card;
+                
+        }
+
+        return null;
     }
 
     //Shuffles the cards in the deck
@@ -175,14 +205,16 @@ public class CardManager : MonoBehaviour
     }
 
     //Deletes a card if only usable once
-    public void DeleteCard(GameObject card)
+    public void StoreCard(GameObject card)
     {
         if (hand.Remove(card))
         {
             card.gameObject.GetComponent<CardBasic>().OnHand();
+            
         }
         
-        Destroy(card);
+        card.transform.localPosition = new Vector3(-11f, 0f, -10f);
+        card.gameObject.SetActive(false);
     }
 
     //Shuffles the cards form discard stack into the deck
@@ -199,11 +231,10 @@ public class CardManager : MonoBehaviour
         Shuffle();
     }
     
-    //TODO: Write function for random initialisation of seeds and action cards
     //Instantiate new card of type index and putting it on the discard
     public void NewCard(int index)
     {
-        GameObject card = new GameObject();
+        GameObject card = null;
         
         switch (index)
         {
@@ -216,11 +247,24 @@ public class CardManager : MonoBehaviour
             case 2:
                 card = Instantiate(trashCardPrefab, this.transform, false);
                 break;
+            case 3:
+                card = RandomCardSelection(index);
+                break;
+            case 4:
+                card = RandomCardSelection(index);
+                break;
+            case 5:
+                card = RandomCardSelection(index);
+                break;
         }
-        
-        CardBasic cardScript = card.GetComponent<CardBasic>();
-        cardScript.FlipCard();
-        Discard(card);
+
+        if (card != null)
+        {
+            CardBasic cardScript = card.GetComponent<CardBasic>();
+            cardScript.FlipCard();
+            Discard(card);
+        }
+            
         
     }
 }

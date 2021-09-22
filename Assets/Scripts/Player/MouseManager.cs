@@ -14,6 +14,8 @@ public class MouseManager : MonoBehaviour
 
     private int range = -1;
     
+    private int randomCardCount = 0;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -110,7 +112,6 @@ public class MouseManager : MonoBehaviour
                             cardSelected = true;
                             cardOutline.enabled = true;
                             
-                            //TODO: Implement the different types of range depending on the card
                             range = card.GetComponent<CardBasic>().CurCardRange;
 
                             //robot deselection
@@ -127,7 +128,6 @@ public class MouseManager : MonoBehaviour
                     }
 
                     //Click on trash
-                    //TODO: Implement getting a random action card or tool out of the trash
                     if (hitInfo.collider.CompareTag("Trash") && hexSelected)
                     {
                         
@@ -140,6 +140,18 @@ public class MouseManager : MonoBehaviour
                             range = -1;
                         }
                         LevelManager.Instance.SelectHexInRange(range);
+
+                        randomCardCount++;
+                        if (randomCardCount == 2)
+                        {
+                            CardManager.Instance.NewCard(4);
+                        }
+                        else if (randomCardCount == 4)
+                        {
+                            CardManager.Instance.NewCard(5);
+                            randomCardCount = 0;
+                        }
+                        
                     }
                     
                     //Click on a hex
@@ -173,14 +185,22 @@ public class MouseManager : MonoBehaviour
                             
                             LevelManager.Instance.SetAction(- posRange);
                         }
+                        
+                        //Deselection of robot and selection of current hex
+                        else if (robotSelected && hitInfo.collider.gameObject == LevelManager.Instance.GetCurrentHex())
+                        {
+                            robotSelected = false;
+                            robotOutline.enabled = false;
+                            hexSelected = true;
+                            range = 0;
+                        }
 
                         //Action is fulfilled only if the hex is in range and a card is selected
                         //TODO: Implement the different actions depending on the card
                         else if (cardSelected && hitInfo.collider.GetComponent<HexInteractions>().IsClickable())
                         {
-                            CardManager.Instance.Discard(card);
                             card.GetComponent<CardBasic>().CardAction(hitInfo.collider.gameObject);
-                            LevelManager.Instance.SetAction(-1);
+                            LevelManager.Instance.SetAction(-card.GetComponent<CardBasic>().CurCost);
                             cardSelected = false;
                             card.GetComponentInChildren<Outline>().enabled = false;
                             range = -1;

@@ -50,25 +50,41 @@ public class CardSeed : MonoBehaviour
     //Returns if a card can be played on a specific hex
     public bool IsPlayable(GameObject hex)
     {
-        /*
-        if (hex.gameObject.GetComponent<HexInteractions>().HasPlant())
+        if (!hex.gameObject.GetComponent<HexInteractions>().IsDump())
+
         {
-            return false;
-        }*/
-        return true;
+            HexAttributes hexAttributesScript = hex.gameObject.GetComponent<HexAttributes>();
+            if (hex.gameObject.GetComponent<HexInteractions>().HasPlant())
+            {
+                return false;
+            }
+
+            if (water > hexAttributesScript.GetWater() ||
+                nutrition > hexAttributesScript.GetNutrition() ||
+                10 - toxicity > hexAttributesScript.GetToxicity() ||
+                trash < hexAttributesScript.GetTrash())
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
     }
     
     //Plays a card action
     public void CardAction(GameObject hex)
     {
-        /*
         if (!hex.gameObject.GetComponent<HexInteractions>().HasPlant())
         {
             GameObject plant = Instantiate(plantPrefab, hex.transform, false);
             plant.gameObject.transform.localPosition = new Vector3(-0.25f,0.1f,0.2f);
             plant.gameObject.GetComponent<Plant>().SetAttributes(water, nutrition, toxicity, basicScript.CurActionValue);
+            this.transform.SetParent(plant.transform);
+            CardManager.Instance.StoreCard(this.gameObject);
             hex.gameObject.GetComponent<HexInteractions>().Plant();
-        }*/
-        
+        }
+
     }
 }

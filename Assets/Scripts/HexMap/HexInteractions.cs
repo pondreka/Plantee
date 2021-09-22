@@ -12,6 +12,10 @@ public class HexInteractions : MonoBehaviour
 
     private bool hasPlant = false;
     private bool notPlayable = false;
+    
+    //Dump
+    [SerializeField] private GameObject dumpPrefab;
+    private bool isDump = false;
 
     // Start is called before the first frame update
     void Start()
@@ -190,6 +194,30 @@ public class HexInteractions : MonoBehaviour
 
         return inRange;
     }
-    //&& LevelManager.Instance.GetCurrentCard().GetComponent<Card>().IsPlayable(this.gameObject)
+
+
+    //Create a dump
+    public GameObject DumpIt()
+    {
+        Vector3 position = this.transform.position;
+        GameObject dump = Instantiate(dumpPrefab, position, Quaternion.Euler(-90, 0, 0), transform.parent);
+        transform.SetParent(dump.transform);
+        gameObject.SetActive(false);
+        gameObject.GetComponentInParent<HexInteractions>().SetPosition(columnPos, rowPos);
+        gameObject.GetComponentInParent<HexInteractions>().DumpTrue();
+
+        return dump;
+    }
+
+    //Getter for dump hex
+    public bool IsDump()
+    {
+        return isDump;
+    }
     
+    //Setter for the dump
+    public void DumpTrue()
+    {
+        isDump = true;
+    }
 }

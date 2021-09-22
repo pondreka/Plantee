@@ -120,6 +120,24 @@ public class LevelManager : MonoBehaviour
      {
           hex.gameObject.GetComponent<HexAttributes>().SetAllAttributes(water, nutrition, toxicity, trash);
      }
+     
+     //Trash can be added to dump
+     public bool IsRecyclable(int range, int trashLevel)
+     {
+
+          if (range < 0 && GetHexMap()[1][1].gameObject == GetCurrentHex().gameObject
+                        && GetHexMap()[1][1].gameObject.GetComponent<Dump>().GetTrashLevel() < trashLevel)
+          {
+               return true;
+          }
+          if (range > 0 && GetCurrentHex().GetComponent<HexInteractions>().InRange(GetHexMap()[1][1], range) 
+              && GetHexMap()[1][1].GetComponent<Dump>().GetTrashLevel() < trashLevel)
+          {
+               return true;
+          }
+
+          return false;
+     }
 
 
      //--------------- HEX MAP FUNCTIONALITY ----------------

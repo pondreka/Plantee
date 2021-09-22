@@ -4,39 +4,47 @@ using UnityEngine;
 
 public class Trash : MonoBehaviour
 {
-    private int range = -1;
-    
+    private CardBasic cardScript;
     // Start is called before the first frame update
     void Start()
     {
-        
+        cardScript = GetComponent<CardBasic>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (LevelManager.Instance.IsRecyclable(cardScript.CurActionRange, cardScript.CurActionValue))
+        {
+            if (cardScript.CurActionRange < 0)
+            {
+                cardScript.SetCardRange(0);
+            }
+            else
+            {
+                cardScript.SetCardRange(cardScript.CurActionRange);  
+            }
+        }
+        else
+        {
+            cardScript.SetCardRange(-1);
+        }
     }
 
-    //Range can only be changed when entering a trash field
-    //Otherwise card must stay on hand because the hex will not be clickable (range -1)
-    public void SetRange()
-    {
-        range = 0;
-    }
-    
-    public int GetRange()
-    {
-        return range;
-    }
-    
     public bool IsPlayable(GameObject hex)
     {
-        return true;
+        if (hex.gameObject.GetComponent<HexInteractions>().IsDump())
+        {
+            
+            return true;
+        }
+
+        return false;
     }
     
-    public void CardAction()
+    public void CardAction(GameObject hex)
     {
-        
+        hex.gameObject.GetComponent<Dump>().AddTrash(this.gameObject);
+        CardManager.Instance.StoreCard(this.gameObject);
     }
 }

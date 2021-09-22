@@ -30,10 +30,7 @@ public class HexAttributes : MonoBehaviour
     [SerializeField] private Image nutritionBar;
     
     
-    //Descriptor list
-    private HashSet<string> descriptor = new HashSet<string>();
-    //private Collection<string> descriptor = new Collection<string>();
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,8 +53,6 @@ public class HexAttributes : MonoBehaviour
         {
             Debug.LogError("No nutrition bar assigned to Hex script!");
         }
-
-        //trashCount = 0;
 
 
     }
@@ -278,16 +273,5 @@ public class HexAttributes : MonoBehaviour
         nutritionBar.fillAmount = nutrition / maxAttributevalue;
     }
     
-    //Add tag to descriptor
-    public void AddTag(string tag)
-    {
-        descriptor.Add(tag);
-    }
-    
-    //Getter for descriptor
-    public HashSet<string> GetDescriptor()
-    {
-        return descriptor;
-    }
 
 }

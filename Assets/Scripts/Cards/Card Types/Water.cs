@@ -21,17 +21,21 @@ public class Water : MonoBehaviour
     //Returns if a card can be played on a specific hex
     public bool IsPlayable(GameObject hex)
     {
-        
-        int water = basicScript.CurActionValue;
-        
-        int hexWater = hex.gameObject.GetComponent<HexAttributes>().GetWater();
-        if ((hexWater + water > 10 && water == 1) 
-            || (hexWater + water > 11 && water == 2)
-            || (hexWater + water > 12 && water == 3))
+        if (!hex.gameObject.GetComponent<HexInteractions>().IsDump())
         {
-            return false;
+            int water = basicScript.CurActionValue;
+        
+            int hexWater = hex.gameObject.GetComponent<HexAttributes>().GetWater();
+            if ((hexWater + water > 10 && water == 1) 
+                || (hexWater + water > 11 && water == 2)
+                || (hexWater + water > 12 && water == 3))
+            {
+                return false;
+            }
+            return true;
         }
-        return true;
+
+        return false;
     }
     
     //Plays a card action
@@ -44,6 +48,8 @@ public class Water : MonoBehaviour
         {
             hexes[i].GetComponent<HexAttributes>().SetWater(basicScript.CurActionValue);
         }
+        
+        CardManager.Instance.Discard(this.gameObject);
         
     }
 }

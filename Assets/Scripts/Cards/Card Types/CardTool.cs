@@ -38,6 +38,6 @@ public class CardTool : MonoBehaviour
     //Plays a card action
     public void CardAction()
     {
-        
+        CardManager.Instance.Discard(this.gameObject);
     }
 }

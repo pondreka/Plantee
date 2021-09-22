@@ -83,6 +83,8 @@ public class HexMap : MonoBehaviour
             }
             map.Add(cmap);
         }
+        
+        map[1][1] = map[1][1].GetComponent<HexInteractions>().DumpIt();
     }
 
     //Getter for the HexTile list
