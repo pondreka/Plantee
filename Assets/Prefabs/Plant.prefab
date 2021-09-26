@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 1721279731773254100}
   - component: {fileID: 6664894399302109888}
   - component: {fileID: 5854585618732125027}
+  - component: {fileID: 1138135514712306865}
   m_Layer: 0
   m_Name: Plant
-  m_TagString: Untagged
+  m_TagString: Plant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,3 +127,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9c2f0a207a8e54bb51a3c71d51210a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardManager: {fileID: 887440190774191354, guid: 54e3e98360b0f6643b7ff0b3780708e8, type: 3}
+--- !u!114 &1138135514712306865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6534977523728224806}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0, g: 0.88675547, b: 1, a: 1}
+  outlineWidth: 5
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []

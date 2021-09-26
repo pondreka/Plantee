@@ -12,6 +12,7 @@ public class Movement : MonoBehaviour
     [SerializeField] private float movingTime = 1.2f;
     
     private NavMeshAgent robot;
+    private bool moving = false;
     
     
     private void Awake()
@@ -28,6 +29,7 @@ public class Movement : MonoBehaviour
     //Moves robot to a hex position along the shortest path 
     private IEnumerator MoveToLocation(Vector3 targetPoint)
     {
+        moving = true;
         while (TempTargetPosition(targetPoint) != targetPoint)
         {
             Vector3 tempPosition = TempTargetPosition(targetPoint);
@@ -39,6 +41,8 @@ public class Movement : MonoBehaviour
 
         robot.destination = targetPoint;
         robot.isStopped = false;
+        yield return new WaitForSeconds(1f);
+        moving = false;
     }
 
     //Getter for the current hex
@@ -47,13 +51,19 @@ public class Movement : MonoBehaviour
         return curHex;
     }
     
-    //Detection of the current hex and 
+    //Detection of the current hex
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Hex"))
         {
             curHex = other.gameObject; 
         }
+    }
+    
+    //Getter for the movement
+    public bool IsMoving()
+    {
+        return moving;
     }
 
     //Calculates the position of the hex closest to the target position

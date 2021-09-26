@@ -32,7 +32,7 @@ public class MouseManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (LevelManager.Instance.GetCurrentHex() != null)
+        if (LevelManager.Instance.GetCurrentHex() != null && !LevelManager.Instance.EndOfRound() && !LevelManager.Instance.IsMoving())
         {
             //LevelManager.Instance.SelectHexInRange(range);
 
@@ -130,26 +130,29 @@ public class MouseManager : MonoBehaviour
                     //Click on trash
                     if (hitInfo.collider.CompareTag("Trash") && hexSelected)
                     {
-                        
-                        hitInfo.collider.GetComponentInParent<HexAttributes>().SetTrash(-1);
-                        CardManager.Instance.NewCard(2);
-                        
-                        if (hitInfo.collider.GetComponentInParent<HexAttributes>().GetTrash() == 0)
+                        if (hitInfo.collider.transform.parent.gameObject == LevelManager.Instance.GetCurrentHex())
                         {
-                            hexSelected = false;
-                            range = -1;
-                        }
-                        LevelManager.Instance.SelectHexInRange(range);
+                            hitInfo.collider.GetComponentInParent<HexAttributes>().SetTrash(-1);
+                            CardManager.Instance.NewCard(2);
 
-                        randomCardCount++;
-                        if (randomCardCount == 2)
-                        {
-                            CardManager.Instance.NewCard(4);
-                        }
-                        else if (randomCardCount == 4)
-                        {
-                            CardManager.Instance.NewCard(5);
-                            randomCardCount = 0;
+                            if (hitInfo.collider.GetComponentInParent<HexAttributes>().GetTrash() == 0)
+                            {
+                                hexSelected = false;
+                                range = -1;
+                            }
+
+                            LevelManager.Instance.SelectHexInRange(range);
+
+                            randomCardCount++;
+                            if (randomCardCount == 2)
+                            {
+                                CardManager.Instance.NewCard(4);
+                            }
+                            else if (randomCardCount == 4)
+                            {
+                                CardManager.Instance.NewCard(5);
+                                randomCardCount = 0;
+                            }
                         }
                         
                     }
@@ -174,8 +177,14 @@ public class MouseManager : MonoBehaviour
                             //Special case walking on the diagonal down right
                             if (currentPosition.y - targetPosition.y > 0 && currentPosition.x - targetPosition.x < 0)
                             {
-                                posRange = (int)Mathf.Max(Mathf.Abs(targetPosition.x - currentPosition.x),
-                                    Mathf.Abs(targetPosition.y - currentPosition.y));
+                                posRange = (int) Mathf.Max(Mathf.Abs(targetPosition.x - currentPosition.x),
+                                                            Mathf.Abs(targetPosition.y - currentPosition.y));
+                            }
+                            //Special case walking on the diagonal up left
+                            else if (currentPosition.y - targetPosition.y < 0 && currentPosition.x - targetPosition.x > 0)
+                            {
+                                posRange = (int) Mathf.Max(Mathf.Abs(targetPosition.x - currentPosition.x),
+                                                            Mathf.Abs(targetPosition.y - currentPosition.y));
                             }
                             else
                             {
@@ -207,14 +216,22 @@ public class MouseManager : MonoBehaviour
                         }
                         
                         //If nothing else is selected, the hex can be selected and objects on the hex collected
-                        //can also be used to select the trash field
-                        //TODO: Create a trash field using a boolean and enable the player to put trash there
                         else if (!robotSelected && !cardSelected)
                         {
                             hexSelected = true;
                             range = 0;
                         }
                         LevelManager.Instance.SelectHexInRange(range);
+                    }
+                    
+                    //Click on plant
+                    if (hitInfo.collider.CompareTag("Plant"))
+                    {
+                        if (hexSelected && hitInfo.collider.gameObject.GetComponent<Plant>().HasSeeds())
+                        {
+                            hitInfo.collider.gameObject.GetComponent<Plant>().GetSeed();
+                            hexSelected = false;
+                        }
                     }
 
                 }

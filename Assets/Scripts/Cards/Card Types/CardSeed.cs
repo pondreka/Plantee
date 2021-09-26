@@ -11,7 +11,7 @@ public class CardSeed : MonoBehaviour
     public Text nutritionValue;
     public Text toxicityValue;
     public Text trashValue;
-    
+
     //Card functionality
     private CardBasic basicScript;
     [SerializeField] private GameObject plantPrefab;
@@ -19,12 +19,12 @@ public class CardSeed : MonoBehaviour
     private int nutrition;
     private int toxicity;
     private int trash;
-
-    //TODO: Implement plant objects and script
-    //TODO: Implement Seeds creating plant objects depending on hex attributes    
+    private int evolutionTime;
+    private int actionIndex;
+    
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         basicScript = GetComponent<CardBasic>();
         
@@ -36,10 +36,13 @@ public class CardSeed : MonoBehaviour
         nutrition = card.nutritionValue;
         toxicity = card.toxicityValue;
         trash = card.trashValue;
+        evolutionTime = card.evolutionTime;
+        actionIndex = card.actionIndex;
         
         basicScript.name.text = card.name;
         basicScript.action.text = card.action;
-        basicScript.SetActionValue(card.spreading);
+        basicScript.SetActionValue(card.actionValue);
+        basicScript.SetActionRange(card.actionRange);
     }
 
     // Update is called once per frame
@@ -79,9 +82,9 @@ public class CardSeed : MonoBehaviour
         if (!hex.gameObject.GetComponent<HexInteractions>().HasPlant())
         {
             GameObject plant = Instantiate(plantPrefab, hex.transform, false);
-            plant.gameObject.transform.localPosition = new Vector3(-0.25f,0.1f,0.2f);
-            plant.gameObject.GetComponent<Plant>().SetAttributes(water, nutrition, toxicity, basicScript.CurActionValue);
-            this.transform.SetParent(plant.transform);
+            plant.gameObject.transform.localPosition = new Vector3(-0.5f,0.1f,0.2f);
+            plant.gameObject.GetComponent<Plant>().SetInstance(water, nutrition, toxicity, trash, 
+                basicScript.CurActionRange, evolutionTime, basicScript.CurActionValue, actionIndex, this.gameObject);
             CardManager.Instance.StoreCard(this.gameObject);
             hex.gameObject.GetComponent<HexInteractions>().Plant();
         }

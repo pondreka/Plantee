@@ -11,5 +11,8 @@ public class CardScriptableSeed : ScriptableObject
     public int trashValue;
     public new string name;
     public string action;
-    public int spreading;
+    public int actionValue;
+    public int actionRange;
+    public int evolutionTime;
+    public int actionIndex;
 }

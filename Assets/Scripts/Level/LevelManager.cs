@@ -26,6 +26,9 @@ public class LevelManager : MonoBehaviour
      [SerializeField] private GameObject cardManagerPrefab;
      private GameObject cardManager;
 
+     private bool roundEnd = false;
+     private int roundCount = 0;
+
 
      private void Awake()
      {
@@ -76,28 +79,151 @@ public class LevelManager : MonoBehaviour
           robotScript = robot.gameObject.GetComponent<Movement>();
           mapScript = mapManager.gameObject.GetComponent<HexMap>();
           mouseManagerScript = mouseManager.gameObject.GetComponent<MouseManager>();
+
+          roundCount = 0;
      }
 
      // Update is called once per frame
      private void Update()
      {
-          if (GetAction() == 0)
+          if (GetAction() == 0 && !roundEnd)
           {
                RoundEnd();
           }
 
      }
 
+     //---------- Round Functionality -------------------
+     
      //Combines all actions happening at the end of a round
-     //TODO: Implement end of round (maybe coroutine)
      private void RoundEnd()
      {
-          SetRange(-1);
-          manaScript.SetActions(manaScript.GetMaxActions());
-          CardManager.Instance.DrawHand();
+          roundCount++;
+          StartCoroutine(RoundEnding());
+          
+          
      }
 
+     //Starts the things happening at the end of the round
+     IEnumerator RoundEnding()
+     {
+          roundEnd = true;
+          
+          SetRange(-1);
+          yield return new WaitWhile(robotScript.IsMoving);
+          yield return new WaitForSeconds(2f);
+          
+          RoundConsequence(roundCount % 10);
+          manaScript.SetActions(manaScript.GetMaxActions());
+          CardManager.Instance.DrawHand();
+          
+          yield return new WaitForSeconds(1f);
+          roundEnd = false;
+     }
      
+     //Getter for end of a round
+     public bool EndOfRound()
+     {
+          return roundEnd;
+     }
+     
+     //Round consequences
+     private void RoundConsequence(int round)
+     {
+          List<List<GameObject>> map = GetHexMap();
+          switch (round)
+          {
+               case 0:
+                    CardManager.Instance.NewCard(1);
+                    break;
+               case 1:
+                    for (int c = 0; c < map.Count; c++)
+                    {
+                         for (int r = 0; r < map[c].Count; r++)
+                         {
+                              if (!map[c][r].GetComponent<HexInteractions>().IsDump())
+                              {
+                                   map[c][r].GetComponent<HexAttributes>().SetTrash(1);
+                              }
+                         }
+                    }
+                    break;
+               case 2:
+                    for (int c = 0; c < map.Count; c++)
+                    {
+                         for (int r = 0; r < map[c].Count; r++)
+                         {
+                              if (!map[c][r].GetComponent<HexInteractions>().IsDump())
+                              {
+                                   map[c][r].GetComponent<HexAttributes>().SetNutrition(-1);
+                              }
+                         }
+                    }
+                    break;
+               case 3:
+                    CardManager.Instance.NewCard(0);
+                    break;
+               case 4:
+                    for (int c = 0; c < map.Count; c++)
+                    {
+                         for (int r = 0; r < map[c].Count; r++)
+                         {
+                              if (!map[c][r].GetComponent<HexInteractions>().IsDump())
+                              {
+                                   map[c][r].GetComponent<HexAttributes>().SetWater(-1);
+                              }
+                         }
+                    }
+                    break;
+               case 5:
+                    CardManager.Instance.NewCard(1);
+                    break;
+               case 6:
+                    for (int c = 0; c < map.Count; c++)
+                    {
+                         for (int r = 0; r < map[c].Count; r++)
+                         {
+                              if (!map[c][r].GetComponent<HexInteractions>().IsDump())
+                              {
+                                   map[c][r].GetComponent<HexAttributes>().SetToxicity(-1);
+                              }
+                         }
+                    }
+                    break;
+               case 7:
+                    CardManager.Instance.NewCard(0);
+                    break;
+               case 8:
+                    for (int c = 0; c < map.Count; c++)
+                    {
+                         for (int r = 0; r < map[c].Count; r++)
+                         {
+                              if (!map[c][r].GetComponent<HexInteractions>().IsDump())
+                              {
+                                   map[c][r].GetComponent<HexAttributes>().SetTrash(1);
+                              }
+                         }
+                    }
+                    break;
+               case 9:
+                    CardManager.Instance.NewCard(3);
+                    break;
+          }
+          
+          //Plant evolution
+          for (int c = 0; c < map.Count; c++)
+          {
+               for (int r = 0; r < map[c].Count; r++)
+               {
+                    if (map[c][r].GetComponent<HexInteractions>().HasPlant())
+                    {
+                         map[c][r].transform.GetChild(7).GetComponent<Plant>().RoundCount();
+                    }
+               }
+          }
+     }
+
+
      //------------ HEX FUNCTIONALITY ------------------
      
      //Setter fot the position of a hex tile
@@ -226,6 +352,12 @@ public class LevelManager : MonoBehaviour
      public void MoveToLocation(Vector3 targetPoint)
      {
           robotScript.Move(targetPoint);
+     }
+
+     //Getter for robot in movement
+     public bool IsMoving()
+     {
+          return robotScript.IsMoving();
      }
 
 

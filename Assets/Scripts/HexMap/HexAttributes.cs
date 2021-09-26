@@ -237,7 +237,7 @@ public class HexAttributes : MonoBehaviour
         if (trashCount < trash)
         {
             int addTrash = trash - trashCount;
-            for (int t = 1; t <= addTrash; t++)
+            for (int t = 0; t < addTrash; t++)
             {
                 trashList[t + trashCount].SetActive(true);
             }
