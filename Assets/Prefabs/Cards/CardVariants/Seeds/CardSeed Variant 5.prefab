@@ -59,5 +59,9 @@ PrefabInstance:
       propertyPath: card
       value: 
       objectReference: {fileID: 11400000, guid: 3ace9bbffade1bb4e86cbd5ae6f86f82, type: 2}
+    - target: {fileID: 9028961797725054700, guid: b068ea5765e74e145b6255f9644a518e, type: 3}
+      propertyPath: plantPrefab
+      value: 
+      objectReference: {fileID: 7172430868465199704, guid: 41cae0512289ff5429cbf902051cb054, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b068ea5765e74e145b6255f9644a518e, type: 3}

@@ -14,6 +14,7 @@ public class CardSeed : MonoBehaviour
 
     //Card functionality
     private CardBasic basicScript;
+    
     [SerializeField] private GameObject plantPrefab;
     private int water;
     private int nutrition;

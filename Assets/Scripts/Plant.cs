@@ -84,6 +84,7 @@ public class Plant : MonoBehaviour
                     transform.localScale = new Vector3(0.3f, 0.2f, 0.3f);
                     Spreading();
                     PlantAction();
+                    plantOutline.OutlineColor = new Color(0f, 0.8f, 1f);
                     plantOutline.enabled = true;
                     seeds = true;
                     break;
@@ -103,12 +104,21 @@ public class Plant : MonoBehaviour
     {
         if (CompareAttributes(transform.parent.gameObject))
         {
-            gameObject.GetComponent<Renderer>().material.color = new Color(0f, 0.6f, 0f);
             roundCount++;
+            if (!seeds)
+            {
+                plantOutline.enabled = false;
+            }
         }
         else
         {
-            gameObject.GetComponent<Renderer>().material.color = new Color(0.3f, 0.3f, 0f);
+            if (!seeds)
+            {
+                plantOutline.enabled = true;
+                plantOutline.OutlineColor = new Color(0.3f, 0.3f, 0f);
+                
+            }
+            
         }
 
         if (roundCount == evolutionAt)

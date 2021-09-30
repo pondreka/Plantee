@@ -13,11 +13,13 @@ public class Movement : MonoBehaviour
     
     private NavMeshAgent robot;
     private bool moving = false;
+    private Animator robotAnimator;
     
     
     private void Awake()
     {
         robot = GetComponent<NavMeshAgent>();
+
     }
     
 
@@ -33,6 +35,7 @@ public class Movement : MonoBehaviour
         while (TempTargetPosition(targetPoint) != targetPoint)
         {
             Vector3 tempPosition = TempTargetPosition(targetPoint);
+
             robot.destination = tempPosition;
             robot.isStopped = false;
             
@@ -41,7 +44,7 @@ public class Movement : MonoBehaviour
 
         robot.destination = targetPoint;
         robot.isStopped = false;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         moving = false;
     }
 
@@ -86,4 +89,5 @@ public class Movement : MonoBehaviour
         }
         return minDistHex.transform.position;
     }
+    
 }
