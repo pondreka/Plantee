@@ -31,7 +31,6 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/Cards/Card Types/Trash.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Cards/Card Types/CardTool.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/MouseManager.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Cards/CardManager.cs" />
       <option value="$PROJECT_DIR$/Assets/Third Party/RobotSphere/Assets/Scripts/RobotFreeAnim.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Cards/Card Types/CardSeed.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Plant.cs" />
@@ -39,6 +38,7 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/HexMap/HexMap.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Cards/CardBasic.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Cards/CardManager.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1yIrKYL6O9QZ5uwJNJxoYes75wB" />
@@ -94,7 +94,7 @@
       <workItem from="1632213220659" duration="32258000" />
       <workItem from="1632470206525" duration="30939000" />
       <workItem from="1632737883056" duration="36970000" />
-      <workItem from="1632989841507" duration="8453000" />
+      <workItem from="1632989841507" duration="10658000" />
     </task>
     <servers />
   </component>

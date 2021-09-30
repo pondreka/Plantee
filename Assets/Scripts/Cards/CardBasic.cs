@@ -88,6 +88,7 @@ public class CardBasic : MonoBehaviour
     //Defines if back or front is shown
     private IEnumerator Flip()
     {
+        showFront = !showFront;
         float time = 0f;
 
         while (time <= 1f)
@@ -101,7 +102,7 @@ public class CardBasic : MonoBehaviour
             
             if (time >= 0.5f)
             {
-                if (showFront)
+                if (!showFront)
                 {
                     front.enabled = false;
                     back.enabled = true;
@@ -116,7 +117,7 @@ public class CardBasic : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
-        showFront = !showFront;
+        
     }
     
     

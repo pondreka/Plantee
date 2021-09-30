@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 
      [SerializeField] private GameObject victory;
      [SerializeField] private GameObject instructions;
+     [SerializeField] private GameObject menu;
      
      private void Awake()
      {
@@ -57,6 +58,7 @@ public class GameManager : MonoBehaviour
           level = 2;
           levelManager = Instantiate(levelManagerPrefab, this.transform, true);
           inLevel = true;
+          menu.SetActive(false);
      }
      
      //Starts the hard level with a click on the button
@@ -66,11 +68,13 @@ public class GameManager : MonoBehaviour
           level = 3;
           levelManager = Instantiate(levelManagerPrefab, this.transform, true);
           inLevel = true;
+          menu.SetActive(false);
      }
 
      //Ends level by button press and returns to menu
      public void ReturnToMenu()
      {
+          menu.SetActive(true);
           levelManager.SetActive(false);
           inLevel = false;
      }
@@ -78,6 +82,7 @@ public class GameManager : MonoBehaviour
      //Displays the victory logo
      public void Victory()
      {
+          menu.SetActive(false);
           levelManager.SetActive(false);
           inLevel = false;
           victory.SetActive(true);
@@ -86,17 +91,20 @@ public class GameManager : MonoBehaviour
      //Deactivates the victory logo after button press
      public void ReturnAfterVictory()
      {
+          menu.SetActive(true);
           victory.SetActive(false);
      }
 
      public void Instructions()
      {
+          menu.SetActive(false);
           instructions.SetActive(true);
      }
 
      //Deactivates the instructions after button press
      public void ReturnAfterInstructions()
      {
+          menu.SetActive(true);
           instructions.SetActive(false);
      }
 }
