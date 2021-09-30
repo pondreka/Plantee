@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\piaon\AppData\Local\JetBrains\Rider2020.3\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\piaon\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_Plantee.500453321.00" t="ExcludeRecursive" />
+    <e p="C:\Users\piaon\Documents\Unity Projects\Plantee" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="NavMeshComponents" t="Include">
+          <e p="Editor" t="Include">
+            <e p="NavMeshAssetManager.cs" t="Include" />
+            <e p="NavMeshComponentsEditor.asmdef" t="Include" />
+            <e p="NavMeshComponentsGUIUtility.cs" t="Include" />
+            <e p="NavMeshLinkEditor.cs" t="Include" />
+            <e p="NavMeshModifierEditor.cs" t="Include" />
+            <e p="NavMeshModifierVolumeEditor.cs" t="Include" />
+            <e p="NavMeshSurfaceEditor.cs" t="Include" />
+          </e>
+          <e p="Scripts" t="Include">
+            <e p="NavMeshComponents.asmdef" t="Include" />
+            <e p="NavMeshLink.cs" t="Include" />
+            <e p="NavMeshModifier.cs" t="Include" />
+            <e p="NavMeshModifierVolume.cs" t="Include" />
+            <e p="NavMeshSurface.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Scripts" t="Include">
+          <e p="Cards" t="Include">
+            <e p="Card Types" t="Include">
+              <e p="CardAction.cs" t="Include" />
+              <e p="CardSeed.cs" t="Include" />
+              <e p="CardTool.cs" t="Include" />
+              <e p="Nutrition.cs" t="Include" />
+              <e p="Trash.cs" t="Include" />
+              <e p="Water.cs" t="Include" />
+            </e>
+            <e p="CardBasic.cs" t="Include" />
+            <e p="CardManager.cs" t="Include" />
+            <e p="Scriptable Objects" t="Include">
+              <e p="CardScriptable.cs" t="Include" />
+              <e p="CardScriptableAction.cs" t="Include" />
+              <e p="CardScriptableSeed.cs" t="Include" />
+              <e p="CardScriptableTool.cs" t="Include" />
+            </e>
+          </e>
+          <e p="GameManager.cs" t="Include" />
+          <e p="HexMap" t="Include">
+            <e p="Dump.cs" t="Include" />
+            <e p="HexAttributes.cs" t="Include" />
+            <e p="HexInteractions.cs" t="Include" />
+            <e p="HexMap.cs" t="Include" />
+            <e p="HexPosition.cs" t="Include" />
+          </e>
+          <e p="Level" t="Include">
+            <e p="Level.cs" t="Include" />
+            <e p="LevelManager.cs" t="Include" />
+          </e>
+          <e p="Mana.cs" t="Include" />
+          <e p="Plant.cs" t="Include" />
+          <e p="Player" t="Include">
+            <e p="MouseManager.cs" t="Include" />
+            <e p="Movement.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Third Party" t="Include">
+          <e p="QuickOutline" t="Include">
+            <e p="Resources" t="Include">
+              <e p="Shaders" t="Include">
+                <e p="OutlineFill.shader" t="Include" />
+                <e p="OutlineMask.shader" t="Include" />
+              </e>
+            </e>
+            <e p="Scripts" t="Include">
+              <e p="Outline.cs" t="Include" />
+            </e>
+          </e>
+          <e p="RobotSphere" t="Include">
+            <e p="Assets" t="Include">
+              <e p="Scripts" t="Include">
+                <e p="Editor" t="Include">
+                  <e p="RobotFreeAnimEditor.cs" t="Include" />
+                </e>
+                <e p="RobotFreeAnim.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="NavMeshComponents.csproj" t="IncludeRecursive" />
+      <e p="NavMeshComponentsEditor.csproj" t="IncludeRecursive" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Plantee.sln" t="IncludeFlat" />
+      <e p="Temp\Bin" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>

@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using UnityEditor.Experimental;
-using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using UnityEngine.AI;
 

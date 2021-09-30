@@ -105,19 +105,20 @@ public class CardBasic : MonoBehaviour
                 {
                     front.enabled = false;
                     back.enabled = true;
-                    showFront = false;
                 }
                 else
                 {
                     front.enabled = true;
                     back.enabled = false;
-                    showFront = true;
                 }
             }
 
             yield return new WaitForFixedUpdate();
         }
+
+        showFront = !showFront;
     }
+    
     
     //Getter for card on hand or not
     public bool IsOnHand()
