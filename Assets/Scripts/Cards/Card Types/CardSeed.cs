@@ -24,7 +24,7 @@ public class CardSeed : MonoBehaviour
     
 
     // Start is called before the first frame update
-    void Awake()
+    private void Awake()
     {
         basicScript = GetComponent<CardBasic>();
         
@@ -53,41 +53,29 @@ public class CardSeed : MonoBehaviour
     //Returns if a card can be played on a specific hex
     public bool IsPlayable(GameObject hex)
     {
-        if (!hex.gameObject.GetComponent<HexInteractions>().IsDump())
-
+        if (hex.gameObject.GetComponent<HexInteractions>().IsDump()) return false;
+        
+        HexAttributes hexAttributesScript = hex.gameObject.GetComponent<HexAttributes>();
+        
+        if (hex.gameObject.GetComponent<HexInteractions>().HasPlant())
         {
-            HexAttributes hexAttributesScript = hex.gameObject.GetComponent<HexAttributes>();
-            if (hex.gameObject.GetComponent<HexInteractions>().HasPlant())
-            {
-                return false;
-            }
-
-            if (water > hexAttributesScript.GetWater() ||
-                nutrition > hexAttributesScript.GetNutrition() ||
-                10 - toxicity > hexAttributesScript.GetToxicity() ||
-                trash < hexAttributesScript.GetTrash())
-            {
-                return false;
-            }
-
-            return true;
+            return false;
         }
 
-        return false;
+        return water <= hexAttributesScript.GetWater() && nutrition <= hexAttributesScript.GetNutrition() && 10 - toxicity <= hexAttributesScript.GetToxicity() && trash >= hexAttributesScript.GetTrash();
     }
     
     //Plays a card action
     public void CardAction(GameObject hex)
     {
-        if (!hex.gameObject.GetComponent<HexInteractions>().HasPlant())
-        {
-            GameObject plant = Instantiate(plantPrefab, hex.transform, false);
-            plant.gameObject.transform.localPosition = new Vector3(-0.5f,0.1f,0.2f);
-            plant.gameObject.GetComponent<Plant>().SetInstance(water, nutrition, toxicity, trash, 
-                basicScript.CurActionRange, evolutionTime, basicScript.CurActionValue, actionIndex, this.gameObject);
-            CardManager.Instance.StoreCard(this.gameObject);
-            hex.gameObject.GetComponent<HexInteractions>().Plant();
-        }
+        if (hex.gameObject.GetComponent<HexInteractions>().HasPlant()) return;
+        
+        GameObject plant = Instantiate(plantPrefab, hex.transform, false);
+        plant.gameObject.transform.localPosition = new Vector3(-0.5f,0.1f,0.2f);
+        plant.gameObject.GetComponent<Plant>().SetInstance(water, nutrition, toxicity, trash, 
+            basicScript.CurActionRange, evolutionTime, basicScript.CurActionValue, actionIndex, this.gameObject);
+        CardManager.Instance.StoreCard(this.gameObject);
+        hex.gameObject.GetComponent<HexInteractions>().Plant();
 
     }
 }

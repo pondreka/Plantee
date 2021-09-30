@@ -25,6 +25,7 @@ public class CardBasic : MonoBehaviour
     //Card functionality
     private bool onHand;
     private int index;
+    public int Index => index;
 
     //Card Attributes and attribute getter
     private int curCardRange;
@@ -85,7 +86,7 @@ public class CardBasic : MonoBehaviour
 
     //Coroutine for the flipping of a card
     //Defines if back or front is shown
-    IEnumerator Flip()
+    private IEnumerator Flip()
     {
         float time = 0f;
 
@@ -127,14 +128,7 @@ public class CardBasic : MonoBehaviour
     //Defines if the card is on hand or not
     public void OnHand()
     {
-        if (onHand)
-        {
-            onHand = false;
-        }
-        else
-        {
-            onHand = true;
-        }
+        onHand = !onHand;
     }
 
     
@@ -179,8 +173,16 @@ public class CardBasic : MonoBehaviour
 
     public void SetCost(int c)
     {
-        curCost = c;
-        cost.text = c.ToString();
+        if (c + curCost < 0)
+        {
+            curCost = 0;
+        }
+        else
+        {
+            curCost += c;
+        }
+        
+        cost.text = curCost.ToString();
     }
     
     
@@ -207,7 +209,7 @@ public class CardBasic : MonoBehaviour
                 return actionScript.IsPlayable(hexToProve);
             case 5:
                 CardTool toolScript = GetComponent<CardTool>();
-                return toolScript.IsPlayable(hexToProve);
+                return toolScript.IsPlayable();
         }
 
         return true;
@@ -237,7 +239,7 @@ public class CardBasic : MonoBehaviour
                 break;
             case 4:
                 CardAction actionScript = GetComponent<CardAction>();
-                actionScript.Action();
+                actionScript.Action(hex);
                 break;
             case 5:
                 CardTool toolScript = GetComponent<CardTool>();

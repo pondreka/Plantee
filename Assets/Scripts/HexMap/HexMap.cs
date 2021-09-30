@@ -64,8 +64,8 @@ public class HexMap : MonoBehaviour
                     GameObject hexTile = Instantiate(hexTilePrefab, tile.GetPosition(), Quaternion.Euler(-90,90,0), this.transform);
                     hexTile.name = "HexTile_" + column + "_" + row;
                     
-                    LevelManager.Instance.SetHexAttributes(hexTile, Random.Range(0,11),Random.Range(0,11), Random.Range(0,11), Random.Range(0,6));
-                    LevelManager.Instance.SetHexPosition(hexTile, column, row);
+                    LevelManager.SetHexAttributes(hexTile, Random.Range(0,11),Random.Range(0,11), Random.Range(0,11), Random.Range(0,6));
+                    LevelManager.SetHexPosition(hexTile, column, row);
 
                     cmap.Add(hexTile);
 
@@ -75,8 +75,8 @@ public class HexMap : MonoBehaviour
                     GameObject hexTile = Instantiate(hexTilePrefab, tile.GetPosition(), Quaternion.Euler(-90,0,0), this.transform);
                     hexTile.name = "HexTile_" + column + "_" + row;
                     
-                    LevelManager.Instance.SetHexAttributes(hexTile, Random.Range(0,11),Random.Range(0,11), Random.Range(0,11), Random.Range(0,6));
-                    LevelManager.Instance.SetHexPosition(hexTile, column, row);
+                    LevelManager.SetHexAttributes(hexTile, Random.Range(0,11),Random.Range(0,11), Random.Range(0,11), Random.Range(0,6));
+                    LevelManager.SetHexPosition(hexTile, column, row);
 
                     cmap.Add(hexTile);
                 }
@@ -96,7 +96,7 @@ public class HexMap : MonoBehaviour
     //Generates a list with all HexTile neighbors
     public List<GameObject> HexNeighbors(GameObject hex)
     {
-        Vector2 position = LevelManager.Instance.GetHexPosition(hex);
+        Vector2 position = LevelManager.GetHexPosition(hex);
 
         List<GameObject> neighbors = new List<GameObject>();
 

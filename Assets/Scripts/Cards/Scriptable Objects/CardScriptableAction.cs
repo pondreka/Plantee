@@ -9,4 +9,5 @@ public class CardScriptableAction : ScriptableObject
     public int cardRange;
     public int actionValue;
     public int actionRange;
+    public int actionIndex;
 }

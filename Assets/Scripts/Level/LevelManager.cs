@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -90,7 +91,44 @@ public class LevelManager : MonoBehaviour
           {
                RoundEnd();
           }
+          
+          Victory();
 
+     }
+     
+     //Ends level by button press and returns to menu
+     public void ReturnToMenu()
+     {
+          GameManager.Instance.ReturnToMenu();
+     }
+     
+     //Level victory
+     private void Victory()
+     {
+          if (AllPlanted() && NoTrash())
+          {
+               GameManager.Instance.Victory();
+          }
+     }
+
+     //Checks if every hex has a plant
+     private bool AllPlanted()
+     {
+          List<List<GameObject>> map = GetHexMap();
+
+          return map.SelectMany(c => c).All(hex => 
+               hex.gameObject.GetComponent<HexInteractions>().IsDump() || 
+               hex.gameObject.GetComponent<HexInteractions>().HasPlant());
+     }
+     
+     //Checks if every hex doesn't have trash anymore
+     private bool NoTrash()
+     {
+          List<List<GameObject>> map = GetHexMap();
+
+          return map.SelectMany(c => c).All(hex => 
+               hex.gameObject.GetComponent<HexInteractions>().IsDump() || 
+               hex.gameObject.GetComponent<HexAttributes>().GetTrash() == 0);
      }
 
      //---------- Round Functionality -------------------
@@ -137,72 +175,42 @@ public class LevelManager : MonoBehaviour
                     CardManager.Instance.NewCard(1);
                     break;
                case 1:
-                    for (int c = 0; c < map.Count; c++)
+                    foreach (var h in from c in map from h in c where !h.GetComponent<HexInteractions>().IsDump() select h)
                     {
-                         for (int r = 0; r < map[c].Count; r++)
-                         {
-                              if (!map[c][r].GetComponent<HexInteractions>().IsDump())
-                              {
-                                   map[c][r].GetComponent<HexAttributes>().SetTrash(1);
-                              }
-                         }
+                         h.GetComponent<HexAttributes>().SetTrash(1);
                     }
                     break;
                case 2:
-                    for (int c = 0; c < map.Count; c++)
+                    foreach (var h in from c in map from h in c where !h.GetComponent<HexInteractions>().IsDump() select h)
                     {
-                         for (int r = 0; r < map[c].Count; r++)
-                         {
-                              if (!map[c][r].GetComponent<HexInteractions>().IsDump())
-                              {
-                                   map[c][r].GetComponent<HexAttributes>().SetNutrition(-1);
-                              }
-                         }
+                         h.GetComponent<HexAttributes>().SetNutrition(-1);
                     }
                     break;
                case 3:
                     CardManager.Instance.NewCard(0);
                     break;
                case 4:
-                    for (int c = 0; c < map.Count; c++)
+                    foreach (var h in from c in map from h in c where !h.GetComponent<HexInteractions>().IsDump() select h)
                     {
-                         for (int r = 0; r < map[c].Count; r++)
-                         {
-                              if (!map[c][r].GetComponent<HexInteractions>().IsDump())
-                              {
-                                   map[c][r].GetComponent<HexAttributes>().SetWater(-1);
-                              }
-                         }
+                         h.GetComponent<HexAttributes>().SetWater(-1);
                     }
                     break;
                case 5:
                     CardManager.Instance.NewCard(1);
                     break;
                case 6:
-                    for (int c = 0; c < map.Count; c++)
+                    foreach (var h in from c in map from h in c where !h.GetComponent<HexInteractions>().IsDump() select h)
                     {
-                         for (int r = 0; r < map[c].Count; r++)
-                         {
-                              if (!map[c][r].GetComponent<HexInteractions>().IsDump())
-                              {
-                                   map[c][r].GetComponent<HexAttributes>().SetToxicity(-1);
-                              }
-                         }
+                         h.GetComponent<HexAttributes>().SetToxicity(-1);
                     }
                     break;
                case 7:
                     CardManager.Instance.NewCard(0);
                     break;
                case 8:
-                    for (int c = 0; c < map.Count; c++)
+                    foreach (var h in from c in map from h in c where !h.GetComponent<HexInteractions>().IsDump() select h)
                     {
-                         for (int r = 0; r < map[c].Count; r++)
-                         {
-                              if (!map[c][r].GetComponent<HexInteractions>().IsDump())
-                              {
-                                   map[c][r].GetComponent<HexAttributes>().SetTrash(1);
-                              }
-                         }
+                         h.GetComponent<HexAttributes>().SetTrash(1);
                     }
                     break;
                case 9:
@@ -211,15 +219,9 @@ public class LevelManager : MonoBehaviour
           }
           
           //Plant evolution
-          for (int c = 0; c < map.Count; c++)
+          foreach (var h in from c in map from h in c where h.GetComponent<HexInteractions>().HasPlant() select h)
           {
-               for (int r = 0; r < map[c].Count; r++)
-               {
-                    if (map[c][r].GetComponent<HexInteractions>().HasPlant())
-                    {
-                         map[c][r].transform.GetChild(7).GetComponent<Plant>().RoundCount();
-                    }
-               }
+               h.transform.GetChild(7).GetComponent<Plant>().RoundCount();
           }
      }
 
@@ -227,13 +229,13 @@ public class LevelManager : MonoBehaviour
      //------------ HEX FUNCTIONALITY ------------------
      
      //Setter fot the position of a hex tile
-     public void SetHexPosition(GameObject hex, int column, int row)
+     public static void SetHexPosition(GameObject hex, int column, int row)
      {
           hex.gameObject.GetComponent<HexInteractions>().SetPosition(column, row);
      }
 
      //Getter for the position of a hex tile (column, row)
-     public Vector2 GetHexPosition(GameObject hex)
+     public static Vector2 GetHexPosition(GameObject hex)
      {
           int column = hex.gameObject.GetComponent<HexInteractions>().GetColumn();
           int row = hex.gameObject.GetComponent<HexInteractions>().GetRow();
@@ -242,7 +244,7 @@ public class LevelManager : MonoBehaviour
      }
 
      //Setter for all attributes of a hex tile
-     public void SetHexAttributes(GameObject hex, int water, int nutrition, int toxicity, int trash)
+     public static void SetHexAttributes(GameObject hex, int water, int nutrition, int toxicity, int trash)
      {
           hex.gameObject.GetComponent<HexAttributes>().SetAllAttributes(water, nutrition, toxicity, trash);
      }
@@ -250,9 +252,8 @@ public class LevelManager : MonoBehaviour
      //Trash can be added to dump
      public bool IsRecyclable(int range, int trashLevel)
      {
-
-          if (range < 0 && GetHexMap()[1][1].gameObject == GetCurrentHex().gameObject
-                        && GetHexMap()[1][1].gameObject.GetComponent<Dump>().GetTrashLevel() < trashLevel)
+          if (range <= 0 && GetHexMap()[1][1].gameObject == GetCurrentHex().gameObject
+                         && GetHexMap()[1][1].gameObject.GetComponent<Dump>().GetTrashLevel() < trashLevel)
           {
                return true;
           }
@@ -276,7 +277,7 @@ public class LevelManager : MonoBehaviour
 
      //Returns a list of all hex in range from the current hex
      //turns the  clickable attribute accordingly
-     public List<List<bool>> GetHexInRange(int range, GameObject hex)
+     private static List<List<bool>> GetHexInRange(int range, GameObject hex)
      {
           return hex.gameObject.GetComponent<HexInteractions>().HexInRange(range);
      }

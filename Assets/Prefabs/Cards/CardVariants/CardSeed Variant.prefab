@@ -154,24 +154,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &9028961797725054700
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6659383372885875964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29d40687d6be67a48b7616b89406c909, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  card: {fileID: 0}
-  waterValue: {fileID: 2647671449725136428}
-  nutritionValue: {fileID: 8996549047592248044}
-  toxicityValue: {fileID: 8250455165212023897}
-  trashValue: {fileID: 8913299492021914462}
-  plantPrefab: {fileID: 6534977523728224806, guid: faaa91fe247dd7342a6e6788d0defdc3, type: 3}
 --- !u!1 &3546132162889572174
 GameObject:
   m_ObjectHideFlags: 0
@@ -322,6 +304,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &9028961797725054700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6659383372885875964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29d40687d6be67a48b7616b89406c909, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  card: {fileID: 0}
+  waterValue: {fileID: 2647671449725136428}
+  nutritionValue: {fileID: 8996549047592248044}
+  toxicityValue: {fileID: 8250455165212023897}
+  trashValue: {fileID: 8913299492021914462}
+  plantPrefab: {fileID: 6534977523728224806, guid: faaa91fe247dd7342a6e6788d0defdc3, type: 3}
 --- !u!1 &7324183457131139939
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,7 +667,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8656756440987106324, guid: 7db7c4e056f9f49469c09f08fafddd9f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -263
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8656756440987106324, guid: 7db7c4e056f9f49469c09f08fafddd9f, type: 3}
       propertyPath: m_LocalPosition.y

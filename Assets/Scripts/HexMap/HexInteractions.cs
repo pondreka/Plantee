@@ -113,7 +113,7 @@ public class HexInteractions : MonoBehaviour
     //Returns a boolean, if a hex is in range or not
     public bool InRange(GameObject hexToProve, int range)
     {
-        Vector2 position = LevelManager.Instance.GetHexPosition(hexToProve);
+        Vector2 position = LevelManager.GetHexPosition(hexToProve);
         int column = (int) position[0];
         int row = (int) position[1];
 

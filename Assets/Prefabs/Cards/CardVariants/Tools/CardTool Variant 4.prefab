@@ -13,7 +13,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 8f81ca6f1c2cbd64babbfdacd72b6160, type: 2}
     - target: {fileID: 1240942274947433490, guid: f3f4a24516afe6d498f6b981024ddfb5, type: 3}
       propertyPath: m_Name
-      value: CardTool Variant
+      value: CardTool Variant 4
       objectReference: {fileID: 0}
     - target: {fileID: 1240942274947433493, guid: f3f4a24516afe6d498f6b981024ddfb5, type: 3}
       propertyPath: m_RootOrder
@@ -57,6 +57,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1240942274947433493, guid: f3f4a24516afe6d498f6b981024ddfb5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3229854853241805628, guid: f3f4a24516afe6d498f6b981024ddfb5, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

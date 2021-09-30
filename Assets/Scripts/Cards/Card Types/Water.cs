@@ -10,6 +10,7 @@ public class Water : MonoBehaviour
     void Start()
     {
         basicScript = GetComponent<CardBasic>();
+        
     }
 
     // Update is called once per frame
@@ -21,21 +22,12 @@ public class Water : MonoBehaviour
     //Returns if a card can be played on a specific hex
     public bool IsPlayable(GameObject hex)
     {
-        if (!hex.gameObject.GetComponent<HexInteractions>().IsDump())
-        {
-            int water = basicScript.CurActionValue;
+        if (hex.gameObject.GetComponent<HexInteractions>().IsDump()) return false;
         
-            int hexWater = hex.gameObject.GetComponent<HexAttributes>().GetWater();
-            if ((hexWater + water > 10 && water == 1) 
-                || (hexWater + water > 11 && water == 2)
-                || (hexWater + water > 12 && water == 3))
-            {
-                return false;
-            }
-            return true;
-        }
-
-        return false;
+        int water = basicScript.CurActionValue;
+        
+        int hexWater = hex.gameObject.GetComponent<HexAttributes>().GetWater();
+        return (hexWater + water <= 10 || water != 1) && (hexWater + water <= 11 || water != 2) && (hexWater + water <= 12 || water != 3);
     }
     
     //Plays a card action
@@ -44,9 +36,9 @@ public class Water : MonoBehaviour
         
         List<GameObject> hexes = LevelManager.Instance.GetHexes(basicScript.CurActionRange, hex);
 
-        for (int i = 0; i < hexes.Count; i++)
+        foreach (var h in hexes)
         {
-            hexes[i].GetComponent<HexAttributes>().SetWater(basicScript.CurActionValue);
+            h.GetComponent<HexAttributes>().SetWater(basicScript.CurActionValue);
         }
         
         CardManager.Instance.Discard(this.gameObject);

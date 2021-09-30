@@ -9,4 +9,5 @@ public class CardScriptableTool : ScriptableObject
     public new string name;
     public int actionValue;
     public int actionRange;
+    public int toolIndex;
 }

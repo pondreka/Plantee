@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Plant : MonoBehaviour
@@ -19,19 +20,16 @@ public class Plant : MonoBehaviour
 
     private List<GameObject> neighbors = new List<GameObject>();
     private Outline plantOutline;
-    
 
-    void Awake()
+
+    private void Awake()
     {
 
         neighbors = LevelManager.Instance.GetHexNeighbors(transform.parent.gameObject);
         GameObject hex = null;
-        for(int i = 0; i < neighbors.Count; i++)
+        foreach (var h in neighbors.Where(h => h.GetComponent<HexInteractions>().IsDump()))
         {
-            if (neighbors[i].GetComponent<HexInteractions>().IsDump())
-            {
-                hex = neighbors[i];
-            }
+            hex = h;
         }
         neighbors.Remove(hex);
         
@@ -95,7 +93,6 @@ public class Plant : MonoBehaviour
         }
         else
         {
-            Debug.Log(stage);
             PlantAction();
         }
     }
@@ -145,15 +142,7 @@ public class Plant : MonoBehaviour
     {
         HexAttributes hexScript = hex.GetComponentInParent<HexAttributes>();
 
-        if (hexScript.GetWater() < water
-            || hexScript.GetNutrition() < nutrition
-            || hexScript.GetToxicity() < 10 - toxicity
-            || hexScript.GetTrash() > trash)
-        {
-            return false;
-        }
-
-        return true;
+        return hexScript.GetWater() >= water && hexScript.GetNutrition() >= nutrition && hexScript.GetToxicity() >= 10 - toxicity && hexScript.GetTrash() <= trash;
     }
     
     //Getting a seed out of an evolved plant
@@ -198,5 +187,23 @@ public class Plant : MonoBehaviour
                 break;
                 
         }
+    }
+    
+    //Stage setter
+    public void SetStage(int value)
+    {
+        if (stage + value < 0)
+        {
+            stage = 0;
+        }
+        else if (stage + value > 3)
+        {
+            stage = 3;
+        }
+        else
+        {
+            stage += value;
+        }
+        Evolve();
     }
 }

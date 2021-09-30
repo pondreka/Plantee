@@ -15,10 +15,16 @@ public class CardManager : MonoBehaviour
     private List<GameObject> deck;
     private List<GameObject> discard;
     private List<GameObject> hand;
-    
+    private List<GameObject> tools;
+    private List<GameObject> waters;
+    private List<GameObject> nutritions;
+    private List<GameObject> seeds;
+    private List<GameObject> trashs;
+    private List<GameObject> toolHand;
+
 
     [Header("Card Deck Initialization")] 
-    [SerializeField] private int seeds = 5;
+    [SerializeField] private int seed = 5;
     [SerializeField] private int water = 5;
     [SerializeField] private int nutrition = 3;
     [SerializeField] private GameObject[] seedVariants;
@@ -30,7 +36,8 @@ public class CardManager : MonoBehaviour
     {
         if (_instance != null && _instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(_instance.gameObject);
+            _instance = this;
         }
         else
         {
@@ -39,13 +46,19 @@ public class CardManager : MonoBehaviour
     }
     
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
+        seeds ??= new List<GameObject>();
+        waters ??= new List<GameObject>();
+        nutritions ??= new List<GameObject>();
+        trashs ??= new List<GameObject>();
+        tools ??= new List<GameObject>();
+        toolHand ??= new List<GameObject>();
         InitializeDeck();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (hand.Count == 0)
         {
@@ -53,6 +66,7 @@ public class CardManager : MonoBehaviour
         }
     }
 
+    //Card deck initialization
     private void InitializeDeck()
     {
         if (deck == null)
@@ -64,43 +78,58 @@ public class CardManager : MonoBehaviour
             deck.Clear();
         }
         
-        if (hand == null)
-        {
-            hand = new List<GameObject>();
-        }
+        hand ??= new List<GameObject>();
         
-        for (int i = 0; i < seeds; i++)
+        for (int i = 0; i < seed; i++)
         {
-            GameObject card = RandomCardSelection(3);
+            GameObject card = CardSelection(3);
+            seeds.Add(card);
             deck.Add(card);
         }
 
         for (int i = 0; i < water; i++)
         {
             GameObject card = Instantiate(waterCardPrefab, this.transform, false);
+            waters.Add(card);
             deck.Add(card);
         }
 
         for (int i = 0; i < nutrition; i++)
         {
             GameObject card = Instantiate(nutritionCardPrefab, this.transform, false);
+            nutritions.Add(card);
             deck.Add(card);
         }
+
+
         Shuffle();
         DrawHand();
     }
     
     //Random card selection of a specific card type
-    private GameObject RandomCardSelection(int index)
+    private GameObject CardSelection(int index)
     {
         GameObject card;
         int rand = 0;
         
         switch (index)
         {
+            case 0:
+                card = Instantiate(waterCardPrefab, this.transform, false);
+                waters.Add(card);
+                return card;
+            case 1:
+                card = Instantiate(nutritionCardPrefab, this.transform, false);
+                nutritions.Add(card);
+                return card;
+            case 2:
+                card = Instantiate(trashCardPrefab, this.transform, false);
+                trashs.Add(card);
+                return card;
             case 3:
                 rand = Random.Range(0, seedVariants.Length);
                 card = Instantiate(seedVariants[rand], this.transform, false);
+                seeds.Add(card);
                 return card;
             case 4:
                 rand = Random.Range(0, actionVariants.Length);
@@ -109,6 +138,7 @@ public class CardManager : MonoBehaviour
             case 5:
                 rand = Random.Range(0, toolVariants.Length);
                 card = Instantiate(toolVariants[rand], this.transform, false);
+                tools.Add(card);
                 return card;
                 
         }
@@ -170,6 +200,16 @@ public class CardManager : MonoBehaviour
         }
     }
 
+    //Draws a full new hand
+    public void DrawNewHand()
+    {
+        for (int i = hand.Count - 1; i >= 0; i--)
+        {
+            Discard(hand[i]);
+        }
+        DrawHand();
+    }
+
     //draws one card from the deck and adds it to the hand
     private void Draw()
     {
@@ -182,14 +222,11 @@ public class CardManager : MonoBehaviour
     //might be a card found on the map or a hand card
     public void Discard(GameObject card)
     {
-        if (discard == null)
-        {
-            discard = new List<GameObject>();
-        }
+        discard ??= new List<GameObject>();
 
-        for (int i = 0; i < discard.Count; i++)
+        foreach (var c in discard)
         {
-            discard[i].gameObject.transform.GetChild(2).GetComponent<Canvas>().sortingOrder = 0;
+            c.gameObject.transform.GetChild(2).GetComponent<Canvas>().sortingOrder = 0;
         }
         
         discard.Add(card);
@@ -197,6 +234,11 @@ public class CardManager : MonoBehaviour
         if (hand.Remove(card))
         {
             card.gameObject.GetComponent<CardBasic>().OnHand();
+        }
+
+        if (toolHand.Remove(card))
+        {
+            card.gameObject.GetComponent<CardTool>().SetOnField();
         }
         
         card.transform.localPosition = new Vector3(-11f, 0f, -10f);
@@ -220,11 +262,11 @@ public class CardManager : MonoBehaviour
     //Shuffles the cards form discard stack into the deck
     private void RenewDeck()
     {
-        for (int c = 0; c < discard.Count; c++)
+        foreach (var c in discard)
         {
-            deck.Add(discard[c]);
-            discard[c].transform.localPosition = new Vector3(0, 0, 0);
-            discard[c].gameObject.GetComponent<CardBasic>().FlipCard();
+            deck.Add(c);
+            c.transform.localPosition = new Vector3(0, 0, 0);
+            c.gameObject.GetComponent<CardBasic>().FlipCard();
         }
             
         discard.Clear();
@@ -234,37 +276,84 @@ public class CardManager : MonoBehaviour
     //Instantiate new card of type index and putting it on the discard
     public void NewCard(int index)
     {
-        GameObject card = null;
-        
-        switch (index)
+        GameObject card = CardSelection(index);
+
+        if (card == null) return;
+        CardBasic cardScript = card.GetComponent<CardBasic>();
+        cardScript.FlipCard();
+        Discard(card);
+    }
+    
+    //Returns a list with all tools
+    public List<GameObject> ToolCards()
+    {
+        return tools;
+    }
+    
+    //Returns a list with all water cards
+    public List<GameObject> WaterCards()
+    {
+        return waters;
+    }
+    
+    //Returns a list with all nutrition cards
+    public List<GameObject> NutritionCards()
+    {
+        return nutritions;
+    }
+    
+    //Returns a list with all seed cards
+    public List<GameObject> SeedCards()
+    {
+        return seeds;
+    }
+    
+    //Returns a list with all trash cards
+    public List<GameObject> TrashCards()
+    {
+        return trashs;
+    }
+    
+    //Puts tool on its position
+    public void PlayToolCard(GameObject card)
+    {
+        card.transform.localPosition = toolHand.Count switch
         {
-            case 0:
-                card = Instantiate(waterCardPrefab, this.transform, false);
-                break;
-            case 1:
-                card = Instantiate(nutritionCardPrefab, this.transform, false);
-                break;
-            case 2:
-                card = Instantiate(trashCardPrefab, this.transform, false);
-                break;
-            case 3:
-                card = RandomCardSelection(index);
-                break;
-            case 4:
-                card = RandomCardSelection(index);
-                break;
-            case 5:
-                card = RandomCardSelection(index);
-                break;
+            0 => new Vector3(0f, -30f, 0f),
+            1 => new Vector3(-11f, -30f, 0f),
+            2 => new Vector3(-22f, -30f, 0f),
+            _ => card.transform.localPosition
+        };
+        
+        card.GetComponent<CardTool>().SetOnField();
+        toolHand.Add(card);
+        
+        if (hand.Remove(card))
+        {
+            card.gameObject.GetComponent<CardBasic>().OnHand();
+            
         }
 
-        if (card != null)
+        if (toolHand.Count <= 2) return;
+        CardTool.SetPlayable(toolHand.Count);
+
+    }
+
+    //Discards a tool from the field and reorders the remaining tools
+    public void DiscardToolCard(GameObject card)
+    {
+        Discard(card);
+        for (int i = 0; i < toolHand.Count; i++)
         {
-            CardBasic cardScript = card.GetComponent<CardBasic>();
-            cardScript.FlipCard();
-            Discard(card);
+            toolHand[i].transform.localPosition = i switch
+            {
+                0 => new Vector3(0f, -30f, 0f),
+                1 => new Vector3(-11f, -30f, 0f),
+                2 => new Vector3(-22f, -30f, 0f),
+                _ => toolHand[i].transform.localPosition
+            };
         }
-            
         
+        CardTool.SetPlayable(toolHand.Count);
     }
 }

@@ -11,10 +11,10 @@ public class GameManager : MonoBehaviour
 
      [SerializeField] private GameObject levelManagerPrefab;
      private GameObject levelManager;
-
      private bool inLevel = false;
+     private int level = 0;
 
-     private int level = 3;
+     [SerializeField] private GameObject victory;
      
      private void Awake()
      {
@@ -34,34 +34,57 @@ public class GameManager : MonoBehaviour
           {
                Debug.LogError("No level manager prefab assigned to GameManager script!");
           }
-
-          Instantiate(levelManagerPrefab, this.transform, true);
-          inLevel = true;
+          
      }
 
      private void Update()
      {
-          nextLevel();
-          if (!inLevel)
-          {
-               Instantiate(levelManagerPrefab, this.transform, true);
-               inLevel = true;
-          }
+          
      }
-
-     //Combines all actions which happen at the end of a level
-     private void nextLevel()
-     {
-          /*if (LevelManager.Instance.GetAction() == 0)
-          {
-               inLevel = false;
-               level++;
-          }*/
-     }
+     
 
      //returns the current level
      public int GetLevel()
      {
           return level;
+     }
+
+     //Starts the easy level with a click on the button
+     public void StartEasyLevel()
+     {
+          if (inLevel) return;
+          level = 2;
+          levelManager = Instantiate(levelManagerPrefab, this.transform, true);
+          inLevel = true;
+     }
+     
+     //Starts the hard level with a click on the button
+     public void StartHardLevel()
+     {
+          if (inLevel) return;
+          level = 3;
+          levelManager = Instantiate(levelManagerPrefab, this.transform, true);
+          inLevel = true;
+     }
+
+     //Ends level by button press and returns to menu
+     public void ReturnToMenu()
+     {
+          levelManager.SetActive(false);
+          inLevel = false;
+     }
+
+     //Displays the victory logo
+     public void Victory()
+     {
+          levelManager.SetActive(false);
+          inLevel = false;
+          victory.SetActive(true);
+     }
+
+     //Deactivates the victory logo after button press
+     public void ReturnAfterVictory()
+     {
+          victory.SetActive(false);
      }
 }
