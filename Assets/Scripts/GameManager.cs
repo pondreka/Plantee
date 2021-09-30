@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
      private int level = 0;
 
      [SerializeField] private GameObject victory;
+     [SerializeField] private GameObject instructions;
      
      private void Awake()
      {
@@ -86,5 +87,16 @@ public class GameManager : MonoBehaviour
      public void ReturnAfterVictory()
      {
           victory.SetActive(false);
+     }
+
+     public void Instructions()
+     {
+          instructions.SetActive(true);
+     }
+
+     //Deactivates the instructions after button press
+     public void ReturnAfterInstructions()
+     {
+          instructions.SetActive(false);
      }
 }
