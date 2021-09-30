@@ -39,7 +39,7 @@ The goal is reached, if on every field (except the dump) is a plant regardless o
 
 Using the menu button one can return to the menu and start a new game.
 
-For a game play see 
+For a game play see https://youtu.be/jYiehsTQoW4
 
 
 Good Luck!
